@@ -1,0 +1,40 @@
+#  This is an auto generated module spec yaml file.
+#  For more details, please refer to https://github.com/Azure/AzureML-Modules/tree/master/specs
+amlModuleIdentifier:
+  moduleName: Train2
+  moduleVersion: 0.0.7
+metadata:
+  annotations: {}
+inputs:
+- name: Training Data Dir
+  type: AnyDirectory
+  optional: true
+- name: Validation Data Dir
+  type: AnyDirectory
+  optional: true
+- name: Epochs
+  type: Integer
+  default: 1
+  optional: true
+- name: Batch Size
+  type: Integer
+  default: 2
+  optional: true
+outputs:
+- name: Trained Model Dir
+  type: AnyDirectory
+implementation:
+  container:
+    amlEnvironment:
+      python:
+        condaDependenciesFile: conda.yaml
+    command:
+    - python
+    - train2.py
+    args:
+    - [--training-data-dir, {inputPath: Training Data Dir}]
+    - [--validation-data-dir, {inputPath: Validation Data Dir}]
+    - [--epochs, {inputValue: Epochs}]
+    - [--batch-size, {inputValue: Batch Size}]
+    - --trained-model-dir
+    - outputPath: Trained Model Dir
