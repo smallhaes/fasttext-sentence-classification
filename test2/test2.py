@@ -21,11 +21,10 @@ from azureml.pipeline.wrapper import dsl
 from azureml.pipeline.wrapper.dsl.module import ModuleExecutor, OutputFile, OutputDirectory, InputFile, InputDirectory
 
 
-@dsl.module(version='0.0.2')
+@dsl.module(version='0.0.3')
 def test2(
         trained_model_dir: InputDirectory(type='AnyDirectory') = None,
-        test_data_dir: InputDirectory(type='AnyDirectory') = None,
-        batch_size=2
+        test_data_dir: InputDirectory(type='AnyDirectory') = None
 ):
     # /mnt/batch/tasks/shared/LS_root/jobs/fundamental/azureml/72e078e0-0677-4e13-9ab0-b50c75b6faba/mounts/workspaceblobstore/azureml/f9272384-1f23-49b1-8218-2cce8297cdc3/Training_Data_Output
     print('trained_model_dir:', trained_model_dir)

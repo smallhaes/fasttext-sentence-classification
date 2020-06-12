@@ -2,7 +2,7 @@
 #  For more details, please refer to https://github.com/Azure/AzureML-Modules/tree/master/specs
 amlModuleIdentifier:
   moduleName: Test2
-  moduleVersion: 0.0.2
+  moduleVersion: 0.0.3
 metadata:
   annotations: {}
 inputs:
@@ -11,10 +11,6 @@ inputs:
   optional: true
 - name: Test Data Dir
   type: AnyDirectory
-  optional: true
-- name: Batch Size
-  type: Integer
-  default: 2
   optional: true
 outputs: []
 implementation:
@@ -28,4 +24,3 @@ implementation:
     args:
     - [--trained-model-dir, {inputPath: Trained Model Dir}]
     - [--test-data-dir, {inputPath: Test Data Dir}]
-    - [--batch-size, {inputValue: Batch Size}]
