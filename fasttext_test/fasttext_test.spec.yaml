@@ -1,0 +1,31 @@
+#  This is an auto generated module spec yaml file.
+#  For more details, please refer to https://github.com/Azure/AzureML-Modules/tree/master/specs
+amlModuleIdentifier:
+  moduleName: FastText Test
+  moduleVersion: 0.0.7
+metadata:
+  annotations: {}
+description: Test the trained FastText model
+inputs:
+- name: Trained Model Dir
+  type: AnyDirectory
+  optional: true
+- name: Test Data Dir
+  type: AnyDirectory
+  optional: true
+- name: Char2Index Dir
+  type: AnyDirectory
+  optional: true
+outputs: []
+implementation:
+  container:
+    amlEnvironment:
+      python:
+        condaDependenciesFile: conda.yaml
+    command:
+    - python
+    - fasttext_test.py
+    args:
+    - [--trained_model_dir, {inputPath: Trained Model Dir}]
+    - [--test_data_dir, {inputPath: Test Data Dir}]
+    - [--char2index_dir, {inputPath: Char2Index Dir}]

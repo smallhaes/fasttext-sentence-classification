@@ -1,0 +1,34 @@
+{
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "name": "fasttext_test",
+            "type": "python",
+            "request": "launch",
+            "args": [
+                "--input_dir",
+                "tests\\inputs\\input_dir",
+                "--output_dir",
+                "tests\\outputs\\output_dir",
+                "--str_param",
+                "some string"
+            ],
+            "console": "integratedTerminal",
+            "env": {
+                "PYTHONPATH": "${workspaceFolder}"
+            },
+            "program": "D:\\MS\\tmp\\fasttext_test\\fasttext_test.py"
+        },
+        {
+            "name": "Python: Current File",
+            "type": "python",
+            "request": "launch",
+            "args": [],
+            "console": "integratedTerminal",
+            "env": {
+                "PYTHONPATH": "${workspaceFolder}"
+            },
+            "program": "${file}"
+        }
+    ]
+}
