@@ -1,4 +1,4 @@
-# azure-designer-demo
+# azureml-designer-demo
 
 split_data_txt, fastext_train and fastext_test are source codes of Split Data Txt, FastText Train and FastText Test respectively in designer
 
