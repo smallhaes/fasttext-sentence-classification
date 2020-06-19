@@ -1,9 +1,7 @@
 azureml-defaults==0.1.0.15587761
-azureml-pipeline-wrapper==0.1.0.15587761
+azureml-pipeline-wrapper[notebooks]==0.1.0.15587761
 azureml-pipeline-core==0.1.0.15587761
 azure-storage-blob
-packaging
 torch==1.4.0
 scikit-learn
 tqdm
-jupyter
