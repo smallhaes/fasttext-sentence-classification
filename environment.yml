@@ -1,4 +1,13 @@
+# dependencies:
+#   - jupyter
+#   - numpy
+#   - matplotlib
+
 dependencies:
-  - jupyter
-  - numpy
-  - matplotlib
+- pip:
+  - --extra-index-url=https://azuremlsdktestpypi.azureedge.net/CLI-SDK-Runners-Validation/15886596
+  - azureml-defaults==0.1.0.15886596
+  - azureml-pipeline-wrapper[notebooks]==0.1.0.15886596
+  - torch==1.4.0
+  - scikit-learn
+  - tqdm
