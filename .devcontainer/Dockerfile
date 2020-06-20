@@ -9,7 +9,7 @@ FROM continuumio/miniconda3
 # property in devcontainer.json to use it. On Linux, the container user's GID/UIDs
 # will be updated to match your local UID/GID (when using the dockerFile property).
 # See https://aka.ms/vscode-remote/containers/non-root-user for details.
-ARG USERNAME=vscode
+ARG USERNAME=vsonline
 ARG USER_UID=1000
 ARG USER_GID=$USER_UID
 
@@ -23,7 +23,7 @@ RUN apt-get update \
     && apt-get -y install --no-install-recommends apt-utils dialog 2>&1 \
     #
     # Verify git, process tools, lsb-release (common in install instructions for CLIs) installed
-    && apt-get -y install zsh git openssh-client less iproute2 procps iproute2 lsb-release \
+    && apt-get -y install zsh vim git openssh-client less iproute2 procps iproute2 lsb-release \
     #
     # Install pylint
     && /opt/conda/bin/pip install pylint \
