@@ -12,7 +12,8 @@ dependencies:
   - --extra-index-url=https://azuremlsdktestpypi.azureedge.net/CLI-SDK-Runners-Validation/15886596
   - azureml-defaults==0.1.0.15886596
   - azureml-pipeline-wrapper[notebooks]==0.1.0.15886596
+  - azureml-pipeline-core==0.1.0.15886596
+  - azure-storage-blob
   - torch==1.4.0
   - scikit-learn
   - tqdm
-  name: project_environment
