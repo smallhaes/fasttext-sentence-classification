@@ -7,7 +7,6 @@ channels:
 - defaults
 dependencies:
 - python=3.6.6
-dependencies:
 - pip:
   - --extra-index-url=https://azuremlsdktestpypi.azureedge.net/CLI-SDK-Runners-Validation/15886596
   - azureml-defaults==0.1.0.15886596
@@ -17,3 +16,4 @@ dependencies:
   - torch==1.4.0
   - scikit-learn
   - tqdm
+  name: project_environment
