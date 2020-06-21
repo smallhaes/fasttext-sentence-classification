@@ -34,6 +34,7 @@ RUN apt-get update \
     && conda update conda \
     # Update Python environment based on environment.yml (if present)
     # && if [ -f "/tmp/conda-tmp/environment.yml" ]; then /opt/conda/bin/conda env update -n base -f /tmp/conda-tmp/environment.yml; fi \
+    && su $USERNAME \
     && if [ -f "/tmp/conda-tmp/environment.yml" ]; then /home/$USERNAME/conda/bin/conda env update -n base -f /tmp/conda-tmp/environment.yml; fi \
     && rm -rf /tmp/conda-tmp \
     #
@@ -46,6 +47,6 @@ RUN apt-get update \
     # && chmod 0440 /etc/sudoers.d/$USERNAME \
     #
     # Clean up
-    && apt-get autoremove -y \
-    && apt-get clean -y \
-    && rm -rf /var/lib/apt/lists/*
+    # & apt-get autoremove -y \
+    # && apt-get clean -y \
+    # && rm -rf /var/lib/apt/lists/*
