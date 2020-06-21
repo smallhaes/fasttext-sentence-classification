@@ -11,12 +11,21 @@
 1. Create codespace on [Visual Studio Codespaces](https://visualstudio.microsoft.com/services/visual-studio-codespaces/). Click "Get started"
     <img src="https://note.youdao.com/yws/public/resource/d68209b5672655918654069ad86b7ac0/xmlnote/9E0278990A6941649D18519D6B42D1AD/72068" style="zoom:50%;" />
 
-2. Click "Create Codespace". Then fill in the options . Here, you need to input ```https://github.com/smallhaes/azureml-designer-demo.git``` in the "Git Repository" box
+2. Click "Create Codespace". Then fill in the options . Here, you need to input
+ + Git Repository: ```https://github.com/smallhaes/azureml-designer-demo.git```
 
-   <img src="https://note.youdao.com/yws/public/resource/d68209b5672655918654069ad86b7ac0/xmlnote/EB35D0C2D8C849AC832EB3658C43880F/72070" style="zoom: 67%;" />
+ + Dotfiles Repository: ```https://github.com/smallhaes/azureml-dotfiles.git```
 
-3. After entering our codespace, change directory to ```~/workspace/azureml-designer-demo``` and run ```sh prepare.sh ```. It will about 5 minutes to configure the environment.
-4. Open ```sample_fasttext2_pipeline.ipynb``` and change the kernel to ```Python 3.7.5 64-bit('pythonenv3.7':venv)```
-![](https://note.youdao.com/yws/public/resource/d68209b5672655918654069ad86b7ac0/xmlnote/AD8766471B274486946271544EFA8800/72082)
+ + Dotfiles Install Command: ```install.sh```
+
+ + Dotfiles Target Path: ```~/azureml-dotfiles```
+
+   
+
+![](https://note.youdao.com/yws/public/resource/d68209b5672655918654069ad86b7ac0/xmlnote/891DE59325494E4DBA92B8AACCD2F8FA/72659)
+
+3. It will about 8 minutes to configure the environment.
+4. Open ```sample_fasttext2_pipeline.ipynb``` and change the kernel to ```Python 3.6.6 64-bit('base':conda)```
+![](https://note.youdao.com/yws/public/resource/d68209b5672655918654069ad86b7ac0/xmlnote/EB463DBE9E604F26AC2095BCC62AB43A/72661)
 
 5. Now you could run this ipynb file. When executing the second cell for the first time, you need to perform interactive authentication or it would be stuck here.![](https://note.youdao.com/yws/public/resource/d68209b5672655918654069ad86b7ac0/xmlnote/5FBEF7ED3BFE432F8575D128C6A9A4FA/72077)
