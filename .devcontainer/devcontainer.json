@@ -6,10 +6,10 @@
 	// Set *default* container specific settings.json values on container create.
 	"settings": { 
 		"terminal.integrated.shell.linux": "/bin/zsh",
-		"python.pythonPath": "~/conda/bin/python",
+		"python.pythonPath": "/home/vsonline/conda/bin/python",
 		"python.linting.enabled": true,
 		"python.linting.pylintEnabled": true,
-		"python.linting.pylintPath": "~/conda/bin/pylint"
+		"python.linting.pylintPath": "/home/vsonline/conda/bin/pylint"
 	},
 
 	// Add the IDs of extensions you want installed when the container is created.
