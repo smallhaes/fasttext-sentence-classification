@@ -34,8 +34,8 @@ RUN apt-get update \
     && conda update conda \
     # Update Python environment based on environment.yml (if present)
     # && if [ -f "/tmp/conda-tmp/environment.yml" ]; then /opt/conda/bin/conda env update -n base -f /tmp/conda-tmp/environment.yml; fi \
-    && su $USERNAME \
     && if [ -f "/tmp/conda-tmp/environment.yml" ]; then /home/$USERNAME/conda/bin/conda env update -n base -f /tmp/conda-tmp/environment.yml; fi \
+    && chmod 777 /home/$USERNAME/conda/lib/python3.6/site-packages/dotnetcore2/bin
     && rm -rf /tmp/conda-tmp \
     #
     # Create a non-root user to use if preferred - see https://aka.ms/vscode-remote/containers/non-root-user.
