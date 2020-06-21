@@ -29,6 +29,8 @@ RUN apt-get update \
     # Install pylint
     && /opt/conda/bin/pip install pylint \
     #
+    # Update conda 20200621
+    && conda update conda \
     # Update Python environment based on environment.yml (if present)
     && if [ -f "/tmp/conda-tmp/environment.yml" ]; then /opt/conda/bin/conda env update -n base -f /tmp/conda-tmp/environment.yml; fi \
     && rm -rf /tmp/conda-tmp \
