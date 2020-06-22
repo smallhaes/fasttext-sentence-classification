@@ -32,7 +32,7 @@ RUN apt-get update \
     #
     # Update conda 20200621
     && conda update conda \
-    && su $USERNAME \
+#     && su $USERNAME \
     # Update Python environment based on environment.yml (if present)
     # && if [ -f "/tmp/conda-tmp/environment.yml" ]; then /opt/conda/bin/conda env update -n base -f /tmp/conda-tmp/environment.yml; fi \
     && if [ -f "/tmp/conda-tmp/environment.yml" ]; then /home/$USERNAME/conda/bin/conda env update -n base -f /tmp/conda-tmp/environment.yml; fi \
