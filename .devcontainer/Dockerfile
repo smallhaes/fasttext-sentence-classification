@@ -32,13 +32,13 @@ RUN apt-get update \
     #
     # Update conda 20200621
     && conda update conda \
+    && su $USERNAME \
     # Update Python environment based on environment.yml (if present)
     # && if [ -f "/tmp/conda-tmp/environment.yml" ]; then /opt/conda/bin/conda env update -n base -f /tmp/conda-tmp/environment.yml; fi \
     && if [ -f "/tmp/conda-tmp/environment.yml" ]; then /home/$USERNAME/conda/bin/conda env update -n base -f /tmp/conda-tmp/environment.yml; fi \
-    # && chmod 777 /home/$USERNAME/conda/lib/python3.6/site-packages/dotnetcore2/bin \
-    && rm -rf /tmp/conda-tmp \
-    && chmod 777 /home/$USERNAME/conda/lib/python3.6/site-packages/dotnetcore2/bin \
-    && chmod 777 /home/$USERNAME/conda/pkgs/cache
+#     && rm -rf /tmp/conda-tmp \
+#     && chmod 777 /home/$USERNAME/conda/lib/python3.6/site-packages/dotnetcore2/bin \
+#     && chmod 777 /home/$USERNAME/conda/pkgs/cache
     #
     # Create a non-root user to use if preferred - see https://aka.ms/vscode-remote/containers/non-root-user.
     # && groupadd --gid $USER_GID $USERNAME \
