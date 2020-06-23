@@ -14,17 +14,12 @@
 2. Click "Create Codespace". Then fill in the options . Here, you need to input
  + Git Repository: ```https://github.com/smallhaes/azureml-designer-demo.git```
 
- + Dotfiles Repository: ```https://github.com/smallhaes/azureml-dotfiles.git```
-
- + Dotfiles Install Command: ```install.sh```
-
- + Dotfiles Target Path: ```~/azureml-dotfiles```
-
    
 
-![](https://note.youdao.com/yws/public/resource/d68209b5672655918654069ad86b7ac0/xmlnote/891DE59325494E4DBA92B8AACCD2F8FA/72659)
 
-3. It will about 8 minutes to configure the environment.
+<img src="https://note.youdao.com/yws/public/resource/d68209b5672655918654069ad86b7ac0/xmlnote/F784C8CEFD1D43338C7D2E4E36CDABBA/73029" style="zoom: 67%;" />
+
+3. It takes about 2 minutes to create the codespace with environment configured.
 4. Open ```sample_fasttext2_pipeline.ipynb``` and change the kernel to ```Python 3.6.6 64-bit('base':conda)```
 ![](https://note.youdao.com/yws/public/resource/d68209b5672655918654069ad86b7ac0/xmlnote/EB463DBE9E604F26AC2095BCC62AB43A/72661)
 
