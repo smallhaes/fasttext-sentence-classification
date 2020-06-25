@@ -31,7 +31,7 @@ USER $USERNAME
 
 RUN wget --quiet https://repo.anaconda.com/miniconda/Miniconda3-py37_4.8.3-Linux-x86_64.sh -O ~/miniconda.sh && \
     /bin/bash ~/miniconda.sh -b -p /home/$USERNAME/conda && \
-    /home/$USERNAME/conda/bin/pip install --extra-index-url=$SDK_SOURCE azure-cli azureml-defaults==$SDK_VERSION_LONG azureml-pipeline-wrapper[notebooks]==$SDK_VERSION_LONG azureml-pipeline-core==$SDK_VERSION_LONG azure.storage.blob && \
+    /home/$USERNAME/conda/bin/pip install --extra-index-url=$SDK_SOURCE azure-cli azureml-defaults==$SDK_VERSION_LONG azureml-pipeline-wrapper[notebooks]==$SDK_VERSION_LONG azureml-pipeline-core==$SDK_VERSION_LONG && \
     # /home/$USERNAME/conda/bin/pip install --extra-index-url=$SDK_SOURCE azure-cli && \
     az extension add --source $AZ_EXTENSION_SOURCE --pip-extra-index-urls $SDK_SOURCE --yes --debug && \
     whoami && \

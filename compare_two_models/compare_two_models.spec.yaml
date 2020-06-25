@@ -1,0 +1,39 @@
+#  This is an auto generated module spec yaml file.
+#  For more details, please refer to https://github.com/Azure/AzureML-Modules/tree/master/specs
+amlModuleIdentifier:
+  moduleName: Compare Two Models
+  moduleVersion: 0.0.7
+metadata:
+  annotations: {}
+description: Choose the better model according to accuracy
+inputs:
+- name: First Trained Model
+  type: AnyDirectory
+  optional: true
+- name: First Trained Result
+  type: AnyDirectory
+  optional: true
+- name: Second Trained Model
+  type: AnyDirectory
+  optional: true
+- name: Second Trained Result
+  type: AnyDirectory
+  optional: true
+outputs:
+- name: The Better Model
+  type: AnyDirectory
+implementation:
+  container:
+    amlEnvironment:
+      python:
+        condaDependenciesFile: conda.yaml
+    command:
+    - python
+    - compare_two_models.py
+    args:
+    - [--first_trained_model, inputPath: First Trained Model]
+    - [--first_trained_result, inputPath: First Trained Result]
+    - [--second_trained_model, inputPath: Second Trained Model]
+    - [--second_trained_result, inputPath: Second Trained Result]
+    - --the_better_model
+    - outputPath: The Better Model

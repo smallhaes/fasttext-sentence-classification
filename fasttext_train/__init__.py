@@ -1,0 +1,1 @@
+from .fasttext_train import fasttext_train

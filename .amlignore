@@ -1,0 +1,4 @@
+tests
+notebooks
+# ignore .pipelineproj to prevent snapshot parsed as pipeline project by vscode extension
+.pipelineproj
