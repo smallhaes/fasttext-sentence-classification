@@ -2,7 +2,7 @@
 #  For more details, please refer to https://github.com/Azure/AzureML-Modules/tree/master/specs
 amlModuleIdentifier:
   moduleName: FastText Train
-  moduleVersion: 0.0.8
+  moduleVersion: 0.0.18
 metadata:
   annotations: {}
 description: Train the FastText model. You could adjust the hyperparameters conveniently
