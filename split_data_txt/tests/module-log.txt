@@ -1,7 +1,0 @@
-============================================
-value of input_dir:'/mnt/input/THUCNews.txt', type of input_dir:'<class 'str'>'
-num of total data: 190000
-num of training data: 133000
-num of validation data: 19000
-num of test_data: 38000
-============================================
