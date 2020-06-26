@@ -6,7 +6,9 @@
 	//  Dockerfile also works. You could configure your codespace as you like, but it may take 10 minutes.
 	// "dockerFile": "Dockerfile",
 	
-	"runArgs": ["--v", "/var/run/docker.sock:/var/run/docker.sock"],
+	// "runArgs": ["--v", "/var/run/docker.sock:/var/run/docker.sock"],
+	  "mounts": [
+  		"source=/var/run/docker.sock,target=/var/run/docker.sock,type=bind"],
 
 	// Set *default* container specific settings.json values on container create.
 	"settings": { 
