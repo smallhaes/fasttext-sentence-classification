@@ -2,7 +2,7 @@
 #  For more details, please refer to https://github.com/Azure/AzureML-Modules/tree/master/specs
 amlModuleIdentifier:
   moduleName: Split Data Txt
-  moduleVersion: 0.0.10
+  moduleVersion: 0.0.17
 metadata:
   annotations: {}
 description: 'Processing objects: text format data set, each line of the text file
@@ -44,11 +44,11 @@ implementation:
     - python
     - split_data_txt.py
     args:
-    - [--input_dir, inputPath: Input Dir]
-    - [--training_data_ratio, inputValue: Training Data Ratio]
-    - [--validation_data_ratio, inputValue: Validation Data Ratio]
-    - [--random_split, inputValue: Random Split]
-    - [--seed, inputValue: Seed]
+    - [--input_dir, {inputPath: Input Dir}]
+    - [--training_data_ratio, {inputValue: Training Data Ratio}]
+    - [--validation_data_ratio, {inputValue: Validation Data Ratio}]
+    - [--random_split, {inputValue: Random Split}]
+    - [--seed, {inputValue: Seed}]
     - --training_data_output
     - outputPath: Training Data Output
     - --validation_data_output

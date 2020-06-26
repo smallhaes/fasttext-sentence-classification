@@ -2,7 +2,7 @@
 #  For more details, please refer to https://github.com/Azure/AzureML-Modules/tree/master/specs
 amlModuleIdentifier:
   moduleName: FastText Score
-  moduleVersion: 0.0.8
+  moduleVersion: 0.0.10
 metadata:
   annotations: {}
 description: Test the trained FastText model
@@ -28,8 +28,8 @@ implementation:
     - python
     - fasttext_score.py
     args:
-    - [--trained_model_dir, inputPath: Trained Model Dir]
-    - [--test_data_dir, inputPath: Test Data Dir]
-    - [--char2index_dir, inputPath: Char2Index Dir]
+    - [--trained_model_dir, {inputPath: Trained Model Dir}]
+    - [--test_data_dir, {inputPath: Test Data Dir}]
+    - [--char2index_dir, {inputPath: Char2Index Dir}]
     - --model_testing_result
     - outputPath: Model Testing Result

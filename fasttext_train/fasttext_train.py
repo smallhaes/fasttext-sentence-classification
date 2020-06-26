@@ -10,7 +10,7 @@ from utils import get_vocab, get_classs, load_dataset, DataIter, train
 
 @dsl.module(
     name="FastText Train",
-    version='0.0.19',
+    version='0.0.25',
     description='Train the FastText model. You could adjust the hyperparameters conveniently'
 )
 def fasttext_train(
@@ -34,7 +34,6 @@ def fasttext_train(
     vocab_size_ = len(c2i)
     stop_patience = 5
     device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
-
     path = os.path.join(training_data_dir, 'train.txt')
     train_samples = load_dataset(file_path=path, max_len=max_len_, char2index_dir=char2index_dir)
     path = os.path.join(validation_data_dir, 'dev.txt')

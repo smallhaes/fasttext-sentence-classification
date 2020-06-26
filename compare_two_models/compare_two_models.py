@@ -10,7 +10,7 @@ from azureml.core import Run
 
 @dsl.module(
     name="Compare Two Models",
-    version="0.0.7",
+    version="0.0.9",
     description="Choose the better model according to accuracy"
 )
 def compare_two_models(
