@@ -2,7 +2,7 @@
 #  For more details, please refer to https://github.com/Azure/AzureML-Modules/tree/master/specs
 amlModuleIdentifier:
   moduleName: Compare Two Models
-  moduleVersion: 0.0.9
+  moduleVersion: 0.0.11
 metadata:
   annotations: {}
 description: Choose the better model according to accuracy

@@ -2,7 +2,7 @@
 #  For more details, please refer to https://github.com/Azure/AzureML-Modules/tree/master/specs
 amlModuleIdentifier:
   moduleName: FastText Predict
-  moduleVersion: 0.0.14
+  moduleVersion: 0.0.17
 metadata:
   annotations: {}
 description: Predict the category of the input sentence

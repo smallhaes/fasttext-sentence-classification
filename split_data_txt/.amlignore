@@ -1,0 +1,9 @@
+__pycache__
+.amlignore
+.gitignore
+.vscode
+.backup
+.devcontainer
+outputs
+.debug
+.git

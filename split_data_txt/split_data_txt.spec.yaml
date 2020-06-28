@@ -2,7 +2,7 @@
 #  For more details, please refer to https://github.com/Azure/AzureML-Modules/tree/master/specs
 amlModuleIdentifier:
   moduleName: Split Data Txt
-  moduleVersion: 0.0.17
+  moduleVersion: 0.0.21
 metadata:
   annotations: {}
 description: 'Processing objects: text format data set, each line of the text file

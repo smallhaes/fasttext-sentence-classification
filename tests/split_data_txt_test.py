@@ -6,7 +6,7 @@ from pathlib import Path
 from azureml.core import Workspace
 from azureml.pipeline.wrapper import Module
 
-sys.path.append(str(Path(__file__).parent.parent / 'split_data_txt'))
+sys.path.insert(1, str(Path(__file__).parent.parent / 'split_data_txt' ))
 from split_data_txt import split_data_txt
 
 

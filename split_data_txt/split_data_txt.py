@@ -2,19 +2,19 @@ import os
 import sys
 import random
 from azureml.pipeline.wrapper import dsl
-from azureml.pipeline.wrapper.dsl.module import ModuleExecutor, OutputFile, InputDirectory
+from azureml.pipeline.wrapper.dsl.module import ModuleExecutor, OutputDirectory, InputDirectory
 from azureml.core import Run
 
 
 @dsl.module(
     name="Split Data Txt",
-    version='0.0.17',
+    version='0.0.21',
     description='Processing objects: text format data set, each line of the text file is a piece of data, this module divides the data set into training set, verification set and test set.'
 )
 def split_data_txt(
-        training_data_output: OutputFile(type='AnyDirectory'),
-        validation_data_output: OutputFile(type='AnyDirectory'),
-        test_data_output: OutputFile(type='AnyDirectory'),
+        training_data_output: OutputDirectory(type='AnyDirectory'),
+        validation_data_output: OutputDirectory(type='AnyDirectory'),
+        test_data_output: OutputDirectory(type='AnyDirectory'),
         input_dir: InputDirectory(type='AnyDirectory') = None,
         training_data_ratio=0.7,
         validation_data_ratio=0.1,

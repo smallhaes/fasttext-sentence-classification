@@ -1,0 +1,13 @@
+.vscode
+.backup
+__pycache__
+ipynb_checkpoints
+data/scripts
+data/outputs
+.idea
+*/.devcontainer
+*/.gitignore
+*/__pycache__
+*/.backup
+*/outputs
+*/.debug
