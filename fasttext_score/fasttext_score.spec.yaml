@@ -2,7 +2,7 @@
 #  For more details, please refer to https://github.com/Azure/AzureML-Modules/tree/master/specs
 amlModuleIdentifier:
   moduleName: FastText Score
-  moduleVersion: 0.0.11
+  moduleVersion: 0.0.12
 metadata:
   annotations: {}
 description: Test the trained FastText model

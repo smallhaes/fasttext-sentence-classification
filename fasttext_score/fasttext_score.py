@@ -10,7 +10,7 @@ from utils import load_dataset, DataIter, test
 
 @dsl.module(
     name="FastText Score",
-    version='0.0.11',
+    version='0.0.12',
     description='Test the trained FastText model'
 )
 def fasttext_score(

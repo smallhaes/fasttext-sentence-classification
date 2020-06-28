@@ -9,7 +9,7 @@ from utils import load_dataset, DataIter, predict
 
 @dsl.module(
     name="FastText Predict",
-    version='0.0.17',
+    version='0.0.18',
     description='Predict the category of the input sentence'
 )
 def fasttext_predict(

@@ -32,7 +32,7 @@ class TestFasttextTrain(unittest.TestCase):
     def prepare_parameters(self) -> dict:
         # Change to your own parameters
         return {
-            'epochs': 1,
+            'epochs': 2,
             'batch_size': 64,
             'learning_rate': 0.0005,
             'embedding_dim': 128
