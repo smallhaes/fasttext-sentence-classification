@@ -14,15 +14,20 @@ ARG USER_GID=$USER_UID
 ENV LANG=C.UTF-8 LC_ALL=C.UTF-8
 ENV PATH /home/$USERNAME/conda/bin:/home/$USERNAME/.local/bin:$PATH
 
-RUN apt-get update --fix-missing && \
-    apt-get install -y wget bzip2 ca-certificates curl git apt-utils sudo vim htop && \
+RUN groupadd --gid 800 docker && \
+    apt-get update --fix-missing && \
+    apt-get install -y apt-utils sudo apt-transport-https wget bzip2 ca-certificates curl gnupg-agent software-properties-common git && \
+    curl -fsSL https://download.docker.com/linux/debian/gpg | sudo apt-key add - && \
+    add-apt-repository "deb [arch=amd64] https://download.docker.com/linux/debian $(lsb_release -cs) stable" && \
+    apt-get update && \
+    apt-get install -y docker-ce docker-ce-cli containerd.io && \
     apt-get clean && \
     rm -rf /var/lib/apt/lists/*
 
 # create vsonline
 RUN groupadd --gid $USER_GID $USERNAME && \ 
     useradd -s /bin/bash --uid $USER_UID --gid $USER_GID -m $USERNAME && \
-    apt-get install -y sudo && \
+    usermod -aG docker $USERNAME && \
     echo $USERNAME ALL=\(root\) NOPASSWD:ALL > /etc/sudoers.d/$USERNAME && \
     chmod 0440 /etc/sudoers.d/$USERNAME
     
@@ -31,9 +36,9 @@ USER $USERNAME
 
 RUN wget --quiet https://repo.anaconda.com/miniconda/Miniconda3-py37_4.8.3-Linux-x86_64.sh -O ~/miniconda.sh && \
     /bin/bash ~/miniconda.sh -b -p /home/$USERNAME/conda && \
-    /home/$USERNAME/conda/bin/pip install --extra-index-url=$SDK_SOURCE azure-cli azureml-defaults==$SDK_VERSION_LONG azureml-pipeline-wrapper[notebooks]==$SDK_VERSION_LONG azureml-pipeline-core==$SDK_VERSION_LONG && \
+    # /home/$USERNAME/conda/bin/pip install --extra-index-url=$SDK_SOURCE azure-cli azureml-defaults==$SDK_VERSION_LONG azureml-pipeline-wrapper[notebooks]==$SDK_VERSION_LONG azureml-pipeline-core==$SDK_VERSION_LONG azure-storage-blob && \
     # /home/$USERNAME/conda/bin/pip install --extra-index-url=$SDK_SOURCE azure-cli && \
-    az extension add --source $AZ_EXTENSION_SOURCE --pip-extra-index-urls $SDK_SOURCE --yes --debug && \
+    # az extension add --source $AZ_EXTENSION_SOURCE --pip-extra-index-urls $SDK_SOURCE --yes --debug && \
     whoami && \
     whoami
 
