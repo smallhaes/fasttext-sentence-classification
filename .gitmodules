@@ -1,3 +1,0 @@
-[submodule ".devcontainer/azureml-update"]
-	path = .devcontainer/azureml-update
-	url = https://github.com/smallhaes/azureml-update.git
