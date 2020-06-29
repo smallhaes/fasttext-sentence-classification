@@ -2,7 +2,7 @@
 	"name": "Python 3 - Miniconda",
 	"context": "..",
 	// With the supported image, it only takes 2 minutes to create your codespace
-	"image":"littlehaes/azureml-demo",
+	"image":"littlehaes/azureml-demo:2",
 	//  Dockerfile also works. You could configure your codespace as you like, but it may take 10 minutes.
 	// "dockerFile": "Dockerfile",
 
