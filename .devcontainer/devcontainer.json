@@ -26,5 +26,7 @@
 	
 	// "runArgs": ["--v", "/var/run/docker.sock:/var/run/docker.sock"]
   	"mounts": [
-  		"source=/var/run/docker.sock,target=/var/run/docker.sock,type=bind"]
+  		"source=/var/run/docker.sock,target=/var/run/docker.sock,type=bind"],
+
+  	"postCreateCommand":"git clone https://github.com/smallhaes/codespace-azureml-update.git ~ && echo 'source ~/codespace-azureml-update/check_for_update.sh' >> ~/.bashrc"
 }
