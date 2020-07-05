@@ -1,7 +1,7 @@
 FROM debian:9   
 
 # sdk version
-ARG SDK_VERSION_SHORT=15978945
+ARG SDK_VERSION_SHORT=16881279
 ARG SDK_SOURCE=https://azuremlsdktestpypi.azureedge.net/Pipeline-Wrapper-SDK-Preview/$SDK_VERSION_SHORT
 ARG SDK_VERSION_LONG=0.1.0.$SDK_VERSION_SHORT
 ARG AZ_EXTENSION_SOURCE=https://azuremlsdktestpypi.azureedge.net/Pipeline-Wrapper-SDK-Preview/$SDK_VERSION_SHORT/azure_cli_ml-0.1.0.$SDK_VERSION_SHORT-py3-none-any.whl
