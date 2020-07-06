@@ -7,11 +7,11 @@ from azureml.core import Run
 
 
 @dsl.module(
-    name="Split Data Txt",
-    version='0.0.23',
-    description='Processing objects: text format data set, each line of the text file is a piece of data, this module divides the data set into training set, verification set and test set.'
+    name="Split Data Txt Parallel",
+    version='0.0.6',
+    description='Processing objects: text format data set, each line of the text file is a piece of data, this module divides the data set into training set, verification set and test set for parallel module.'
 )
-def split_data_txt(
+def split_data_txt_parallel(
         training_data_output: OutputDirectory(type='AnyDirectory'),
         validation_data_output: OutputDirectory(type='AnyDirectory'),
         test_data_output: OutputDirectory(type='AnyDirectory'),
@@ -61,13 +61,15 @@ def split_data_txt(
     print(os.listdir(validation_data_output))
 
     os.makedirs(test_data_output, exist_ok=True)
-    path = os.path.join(test_data_output, "test.txt")
-    with open(path, 'w', encoding='utf-8') as f:
-        f.writelines(test)
-    print(path)
-    print(os.listdir(test_data_output))
+    for i, t in enumerate(test):
+        path_new = os.path.join(test_data_output, str(i))
+        with open(path_new, 'w', encoding='utf-8') as f:
+            f.write(t)
     print('============================================')
 
 
 if __name__ == '__main__':
-    ModuleExecutor(split_data_txt).execute(sys.argv)
+    ModuleExecutor(split_data_txt_parallel).execute(sys.argv)
+
+
+

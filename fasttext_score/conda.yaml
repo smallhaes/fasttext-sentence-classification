@@ -1,6 +1,12 @@
-channels: [defaults]
+channels:
+- defaults
 dependencies:
 - python=3.6.6
-- pip: [--extra-index-url=https://azuremlsdktestpypi.azureedge.net/CLI-SDK-Runners-Validation/15978945,
-    azureml-defaults==0.1.0.15978945, azureml-pipeline-wrapper==0.1.0.15978945, torch==1.4.0, scikit-learn, tqdm]
+- pip:
+  - --extra-index-url=https://azuremlsdktestpypi.azureedge.net/Pipeline-Wrapper-SDK-Preview/17037452
+  - azureml-defaults==0.1.0.17037452
+  - azureml-pipeline-wrapper==0.1.0.17037452
+  - torch==1.4.0
+  - scikit-learn
+  - tqdm
 name: project_environment

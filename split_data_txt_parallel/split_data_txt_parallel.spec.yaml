@@ -1,13 +1,13 @@
 #  This is an auto generated module spec yaml file.
 #  For more details, please refer to https://github.com/Azure/AzureML-Modules/tree/master/specs
 amlModuleIdentifier:
-  moduleName: Split Data Txt
-  moduleVersion: 0.0.23
+  moduleName: Split Data Txt Parallel
+  moduleVersion: 0.0.6
 metadata:
   annotations: {}
 description: 'Processing objects: text format data set, each line of the text file
   is a piece of data, this module divides the data set into training set, verification
-  set and test set.'
+  set and test set for parallel module.'
 inputs:
 - name: Input Dir
   type: AnyDirectory
@@ -42,7 +42,7 @@ implementation:
         condaDependenciesFile: conda.yaml
     command:
     - python
-    - split_data_txt.py
+    - split_data_txt_parallel.py
     args:
     - [--input_dir, inputPath: Input Dir]
     - [--training_data_ratio, inputValue: Training Data Ratio]

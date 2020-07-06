@@ -2,7 +2,7 @@
 #  For more details, please refer to https://github.com/Azure/AzureML-Modules/tree/master/specs
 amlModuleIdentifier:
   moduleName: FastText Predict
-  moduleVersion: 0.0.18
+  moduleVersion: 0.0.20
 metadata:
   annotations: {}
 description: Predict the category of the input sentence
@@ -27,6 +27,6 @@ implementation:
     - python
     - fasttext_predict.py
     args:
-    - [--fasttext_model, {inputPath: Fasttext Model}]
-    - [--char2index_dir, {inputPath: Char2Index Dir}]
-    - [--input_sentence, {inputValue: Input Sentence}]
+    - [--fasttext_model, inputPath: Fasttext Model]
+    - [--char2index_dir, inputPath: Char2Index Dir]
+    - [--input_sentence, inputValue: Input Sentence]

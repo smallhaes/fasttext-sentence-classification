@@ -1,16 +1,16 @@
 #  This is an auto generated module spec yaml file.
 #  For more details, please refer to https://github.com/Azure/AzureML-Modules/tree/master/specs
 amlModuleIdentifier:
-  moduleName: FastText Score
-  moduleVersion: 0.0.14
+  moduleName: FastText Score Parallel
+  moduleVersion: 0.0.3
+jobType: parallel
 metadata:
   annotations: {}
-description: Test the trained FastText model
+description: Test the trained FastText model parallelly
 inputs:
-- name: Trained Model Dir
+- name: Texts to score
   type: AnyDirectory
-  optional: true
-- name: Test Data Dir
+- name: Trained Model Dir
   type: AnyDirectory
   optional: true
 - name: Char2Index Dir
@@ -20,16 +20,16 @@ outputs:
 - name: Model Testing Result
   type: AnyDirectory
 implementation:
-  container:
+  parallel:
     amlEnvironment:
       python:
         condaDependenciesFile: conda.yaml
-    command:
-    - python
-    - fasttext_score.py
+    inputData:
+    - Texts to score
+    outputData: Model Testing Result
+    entry: fasttext_score_parallel.py
     args:
     - [--trained_model_dir, inputPath: Trained Model Dir]
-    - [--test_data_dir, inputPath: Test Data Dir]
     - [--char2index_dir, inputPath: Char2Index Dir]
     - --model_testing_result
     - outputPath: Model Testing Result

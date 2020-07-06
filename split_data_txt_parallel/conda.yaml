@@ -6,7 +6,4 @@ dependencies:
   - --extra-index-url=https://azuremlsdktestpypi.azureedge.net/Pipeline-Wrapper-SDK-Preview/17037452
   - azureml-defaults==0.1.0.17037452
   - azureml-pipeline-wrapper==0.1.0.17037452
-  - torch==1.4.0
-  - scikit-learn
-  - tqdm
 name: project_environment
