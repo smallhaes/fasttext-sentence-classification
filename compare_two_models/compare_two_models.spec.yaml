@@ -2,25 +2,25 @@
 #  For more details, please refer to https://github.com/Azure/AzureML-Modules/tree/master/specs
 amlModuleIdentifier:
   moduleName: Compare Two Models
-  moduleVersion: 0.0.13
+  moduleVersion: 0.0.17
 metadata:
   annotations: {}
 description: Choose the better model according to accuracy
 inputs:
-- name: First Trained Model
+- name: First trained model
   type: AnyDirectory
   optional: true
-- name: First Trained Result
+- name: First trained result
   type: AnyDirectory
   optional: true
-- name: Second Trained Model
+- name: Second trained model
   type: AnyDirectory
   optional: true
-- name: Second Trained Result
+- name: Second trained result
   type: AnyDirectory
   optional: true
 outputs:
-- name: The Better Model
+- name: The better model
   type: AnyDirectory
 implementation:
   container:
@@ -31,9 +31,9 @@ implementation:
     - python
     - compare_two_models.py
     args:
-    - [--first_trained_model, inputPath: First Trained Model]
-    - [--first_trained_result, inputPath: First Trained Result]
-    - [--second_trained_model, inputPath: Second Trained Model]
-    - [--second_trained_result, inputPath: Second Trained Result]
+    - [--first_trained_model, inputPath: First trained model]
+    - [--first_trained_result, inputPath: First trained result]
+    - [--second_trained_model, inputPath: Second trained model]
+    - [--second_trained_result, inputPath: Second trained result]
     - --the_better_model
-    - outputPath: The Better Model
+    - outputPath: The better model

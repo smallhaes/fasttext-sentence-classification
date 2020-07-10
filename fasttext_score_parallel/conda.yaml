@@ -3,10 +3,11 @@ channels:
 dependencies:
 - python=3.6.6
 - pip:
-  - --extra-index-url=https://azuremlsdktestpypi.azureedge.net/Pipeline-Wrapper-SDK-Preview/17037452
-  - azureml-defaults==0.1.0.17037452
-  - azureml-pipeline-wrapper==0.1.0.17037452
+  - --extra-index-url=https://azuremlsdktestpypi.azureedge.net/CLI-SDK-Runners-Validation/17288354
+  - azureml-defaults==0.1.0.17288354
+  - azureml-pipeline-wrapper==0.1.0.17288354
   - torch==1.4.0
   - scikit-learn
   - tqdm
+  - pyarrow
 name: project_environment

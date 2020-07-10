@@ -2,38 +2,38 @@
 #  For more details, please refer to https://github.com/Azure/AzureML-Modules/tree/master/specs
 amlModuleIdentifier:
   moduleName: FastText Train
-  moduleVersion: 0.0.29
+  moduleVersion: 0.0.34
 metadata:
   annotations: {}
 description: Train the FastText model. You could adjust the hyperparameters conveniently
 inputs:
-- name: Training Data Dir
+- name: Training data dir
   type: AnyDirectory
   optional: true
-- name: Validation Data Dir
+- name: Validation data dir
   type: AnyDirectory
   optional: true
-- name: Char2Index Dir
+- name: Char2index dir
   type: AnyDirectory
   optional: true
 - name: Epochs
   type: Integer
   default: 2
   optional: true
-- name: Batch Size
+- name: Batch size
   type: Integer
   default: 32
   optional: true
-- name: Learning Rate
+- name: Learning rate
   type: Float
   default: 0.0005
   optional: true
-- name: Embedding Dim
+- name: Embedding dim
   type: Integer
   default: 128
   optional: true
 outputs:
-- name: Trained Model Dir
+- name: Trained model dir
   type: AnyDirectory
 implementation:
   container:
@@ -44,12 +44,12 @@ implementation:
     - python
     - fasttext_train.py
     args:
-    - [--training_data_dir, inputPath: Training Data Dir]
-    - [--validation_data_dir, inputPath: Validation Data Dir]
-    - [--char2index_dir, inputPath: Char2Index Dir]
+    - [--training_data_dir, inputPath: Training data dir]
+    - [--validation_data_dir, inputPath: Validation data dir]
+    - [--char2index_dir, inputPath: Char2index dir]
     - [--epochs, inputValue: Epochs]
-    - [--batch_size, inputValue: Batch Size]
-    - [--learning_rate, inputValue: Learning Rate]
-    - [--embedding_dim, inputValue: Embedding Dim]
+    - [--batch_size, inputValue: Batch size]
+    - [--learning_rate, inputValue: Learning rate]
+    - [--embedding_dim, inputValue: Embedding dim]
     - --trained_model_dir
-    - outputPath: Trained Model Dir
+    - outputPath: Trained model dir

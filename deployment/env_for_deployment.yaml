@@ -6,4 +6,9 @@ dependencies:
   - --extra-index-url=https://azuremlsdktestpypi.azureedge.net/CLI-SDK-Runners-Validation/17288354
   - azureml-defaults==0.1.0.17288354
   - azureml-pipeline-wrapper==0.1.0.17288354
+  - torch==1.4.0
+  - scikit-learn
+  - tqdm
+  - pyarrow
+  - inference-schema[numpy-support]
 name: project_environment

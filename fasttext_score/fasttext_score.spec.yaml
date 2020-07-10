@@ -2,23 +2,22 @@
 #  For more details, please refer to https://github.com/Azure/AzureML-Modules/tree/master/specs
 amlModuleIdentifier:
   moduleName: FastText Score
-  moduleVersion: 0.0.14
+  moduleVersion: 0.0.18
 metadata:
   annotations: {}
-description: Test the trained FastText model
+description: Predict the category of the input sentence
 inputs:
-- name: Trained Model Dir
+- name: Fasttext model
   type: AnyDirectory
   optional: true
-- name: Test Data Dir
+- name: Char2index dir
   type: AnyDirectory
   optional: true
-- name: Char2Index Dir
-  type: AnyDirectory
+- name: Input sentence
+  type: String
+  default: I like playing football very much
   optional: true
-outputs:
-- name: Model Testing Result
-  type: AnyDirectory
+outputs: []
 implementation:
   container:
     amlEnvironment:
@@ -28,8 +27,6 @@ implementation:
     - python
     - fasttext_score.py
     args:
-    - [--trained_model_dir, inputPath: Trained Model Dir]
-    - [--test_data_dir, inputPath: Test Data Dir]
-    - [--char2index_dir, inputPath: Char2Index Dir]
-    - --model_testing_result
-    - outputPath: Model Testing Result
+    - [--fasttext_model, inputPath: Fasttext model]
+    - [--char2index_dir, inputPath: Char2index dir]
+    - [--input_sentence, inputValue: Input sentence]

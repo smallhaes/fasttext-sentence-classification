@@ -2,25 +2,25 @@
 #  For more details, please refer to https://github.com/Azure/AzureML-Modules/tree/master/specs
 amlModuleIdentifier:
   moduleName: Split Data Txt Parallel
-  moduleVersion: 0.0.6
+  moduleVersion: 0.0.12
 metadata:
   annotations: {}
 description: 'Processing objects: text format data set, each line of the text file
   is a piece of data, this module divides the data set into training set, verification
   set and test set for parallel module.'
 inputs:
-- name: Input Dir
+- name: Input dir
   type: AnyDirectory
   optional: true
-- name: Training Data Ratio
+- name: Training data ratio
   type: Float
   default: 0.7
   optional: true
-- name: Validation Data Ratio
+- name: Validation data ratio
   type: Float
   default: 0.1
   optional: true
-- name: Random Split
+- name: Random split
   type: Boolean
   default: false
   optional: true
@@ -29,11 +29,11 @@ inputs:
   default: 0
   optional: true
 outputs:
-- name: Training Data Output
+- name: Training data output
   type: AnyDirectory
-- name: Validation Data Output
+- name: Validation data output
   type: AnyDirectory
-- name: Test Data Output
+- name: Test data output
   type: AnyDirectory
 implementation:
   container:
@@ -44,14 +44,14 @@ implementation:
     - python
     - split_data_txt_parallel.py
     args:
-    - [--input_dir, inputPath: Input Dir]
-    - [--training_data_ratio, inputValue: Training Data Ratio]
-    - [--validation_data_ratio, inputValue: Validation Data Ratio]
-    - [--random_split, inputValue: Random Split]
+    - [--input_dir, inputPath: Input dir]
+    - [--training_data_ratio, inputValue: Training data ratio]
+    - [--validation_data_ratio, inputValue: Validation data ratio]
+    - [--random_split, inputValue: Random split]
     - [--seed, inputValue: Seed]
     - --training_data_output
-    - outputPath: Training Data Output
+    - outputPath: Training data output
     - --validation_data_output
-    - outputPath: Validation Data Output
+    - outputPath: Validation data output
     - --test_data_output
-    - outputPath: Test Data Output
+    - outputPath: Test data output
