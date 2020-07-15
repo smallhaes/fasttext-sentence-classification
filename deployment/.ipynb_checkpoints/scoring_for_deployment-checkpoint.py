@@ -23,7 +23,7 @@ def init():
     print(f'cur: {os.listdir()}')
     print(f'cur: {os.listdir("deployment")}')
     print(f'cur: {os.listdir("azureml-models")}')
-#     print(f'cur: {os.listdir("azureml-models/BestModel")}')
+    print(f'cur: {os.listdir("azureml-models/BestModel")}')
     
     device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
     max_len_ = 38
