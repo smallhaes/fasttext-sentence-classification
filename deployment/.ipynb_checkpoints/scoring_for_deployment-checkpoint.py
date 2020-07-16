@@ -27,9 +27,9 @@ def init():
     
     device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
     max_len_ = 38
-    # 'azureml-models\\BestModel\\1\\Trained_model_dir'
-#     path = os.path.join('azureml-models','BestModel', '1','Trained_model_dir','BestModel')
-    path = os.path.join('azureml-models','BestModel_tmp', '1' ,'BestModel')
+    with open('deployment/model_path.txt','r') as f:
+        path = f.read().strip()
+        print('model_path:{}'.format(path))
     print('======  ')
     print(os.path.exists(path))
     print('isdir',os.path.isdir(path))

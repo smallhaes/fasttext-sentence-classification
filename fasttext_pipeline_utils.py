@@ -1,3 +1,4 @@
+# +
 import os
 from azureml.core import Workspace, Dataset
 from azureml.pipeline.core.graph import DataType
@@ -103,6 +104,20 @@ def register_model_from_local(workspace, model_name, model_path, tags=None):
     return model
 
 
+# get model path
+def get_model_path(workspace, name, version):
+    model_path = Model.get_model_path(model_name=name, version=version, _workspace=workspace)
+    return model_path
+
+
+# record model path for deployment
+def record_model_path(source_directory, model_path):
+    path = os.path.join(source_directory, 'model_path.txt')
+    with open(path, 'w') as f:
+        f.write(model_path)
+    print('record new model path: {}'.format(model_path))
+
+
 # register env
 # won't increase the version automatically
 def register_enviroment(workspace, name, file_path):
@@ -144,10 +159,40 @@ def deploy_locally(workspace, service_name, models, inference_config, port=8890)
 
 # deploy a model to Azure Container Instances
 # we could not use the same "service_name"
-def deploy_to_ACI(workspace, service_name, models, inference_config, cpu_cores=1, memory_gb=1):
+def deploy_to_ACI(workspace, service_name, models, inference_config, cpu_cores=1, memory_gb=1, overwrite=True):
+    services = workspace.webservices
+    if service_name in services and overwrite:
+        print('found existing service named {}, delete it right now...'.format(service_name))
+        services[service_name].delete()
     deployment_config = AciWebservice.deploy_configuration(cpu_cores=cpu_cores, memory_gb=memory_gb)
     service = Model.deploy(workspace, service_name, models=models, inference_config=inference_config,
                            deployment_config=deployment_config)
+    service.wait_for_deployment(show_output=True)
+    print(service.state)
+    return service
+
+
+# deploy a model to Azure Kubernetes Service
+# we could not use the same "service_name"
+def deploy_to_AKS(workspace, attachment_name, service_name, models, inference_config, token_auth_enabled=True,
+                  cpu_cores=1, memory_gb=1, overwrite=True):
+    services = workspace.webservices
+    if service_name in services and overwrite:
+        print('found existing service named {}, delete it right now...'.format(service_name))
+        services[service_name].delete()
+    # Only one type of Auth may be enabled
+    if token_auth_enabled:
+        # key auth
+        auth_enabled = False
+    print('auth type: {}'.format('token' if token_auth_enabled else 'key'))
+    aks_target = AksCompute(workspace, attachment_name)
+    # If deploying to a cluster configured for dev/test, ensure that it was created with enough
+    # cores and memory to handle this deployment configuration. Note that memory is also used by
+    # things such as dependencies and AML components.
+    deployment_config = AksWebservice.deploy_configuration(cpu_cores=cpu_cores, memory_gb=memory_gb,
+                                                           token_auth_enabled=token_auth_enabled,
+                                                           auth_enabled=auth_enabled)
+    service = Model.deploy(workspace, service_name, models, inference_config, deployment_config, aks_target)
     service.wait_for_deployment(show_output=True)
     print(service.state)
     return service
@@ -160,18 +205,3 @@ def attach_to_AKS(workspace, attachment_name, resource_id, cluster_purpose=None)
     aks_target = ComputeTarget.attach(workspace, attachment_name, attach_config)
     return aks_target
 
-
-# deploy a model to Azure Kubernetes Service
-# we could not use the same "service_name"
-def deploy_to_AKS(workspace, attachment_name, service_name, models, inference_config, token_auth_enabled=True,
-                  cpu_cores=1, memory_gb=1):
-    aks_target = AksCompute(workspace, attachment_name)
-    # If deploying to a cluster configured for dev/test, ensure that it was created with enough
-    # cores and memory to handle this deployment configuration. Note that memory is also used by
-    # things such as dependencies and AML components.
-    deployment_config = AksWebservice.deploy_configuration(cpu_cores=cpu_cores, memory_gb=memory_gb,
-                                                           token_auth_enabled=token_auth_enabled)
-    service = Model.deploy(workspace, service_name, models, inference_config, deployment_config, aks_target)
-    service.wait_for_deployment(show_output=True)
-    print(service.state)
-    return service
