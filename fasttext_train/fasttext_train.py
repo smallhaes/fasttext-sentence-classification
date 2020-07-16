@@ -10,7 +10,7 @@ from utils import get_vocab, get_classs, load_dataset, DataIter, train
 
 @dsl.module(
     name="FastText Train",
-    version='0.0.34',
+    version='0.0.35',
     description='Train the FastText model. You could adjust the hyperparameters conveniently'
 )
 def fasttext_train(

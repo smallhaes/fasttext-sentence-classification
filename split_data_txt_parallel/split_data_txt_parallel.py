@@ -8,7 +8,7 @@ from azureml.core import Run
 
 @dsl.module(
     name="Split Data Txt Parallel",
-    version='0.0.12',
+    version='0.0.13',
     description='Processing objects: text format data set, each line of the text file is a piece of data, this module divides the data set into training set, verification set and test set for parallel module.'
 )
 def split_data_txt_parallel(

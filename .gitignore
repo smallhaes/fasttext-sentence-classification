@@ -1,3 +1,8 @@
+deployment/Trained_model_dir
+dir_test/
+tmp2.py
+tmp3.py
+tmp4.py
 azureml
 deployment/azureml
 .ipynb_aml_checkpoints

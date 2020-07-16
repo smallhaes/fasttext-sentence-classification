@@ -1,40 +1,49 @@
 #  This is an auto generated module spec yaml file.
-#  For more details, please refer to https://github.com/Azure/AzureML-Modules/tree/master/specs
+#  For more details, please refer to https://aka.ms/azureml-module-specs
 amlModuleIdentifier:
   moduleName: Split Data Txt Parallel
-  moduleVersion: 0.0.12
+  moduleVersion: 0.0.13
 metadata:
-  annotations: {}
+  annotations:
+    codegenBy: dsl.module
 description: 'Processing objects: text format data set, each line of the text file
   is a piece of data, this module divides the data set into training set, verification
   set and test set for parallel module.'
 inputs:
 - name: Input dir
   type: AnyDirectory
+  argumentName: input_dir
   optional: true
 - name: Training data ratio
   type: Float
+  argumentName: training_data_ratio
   default: 0.7
   optional: true
 - name: Validation data ratio
   type: Float
+  argumentName: validation_data_ratio
   default: 0.1
   optional: true
 - name: Random split
   type: Boolean
+  argumentName: random_split
   default: false
   optional: true
 - name: Seed
   type: Integer
+  argumentName: seed
   default: 0
   optional: true
 outputs:
 - name: Training data output
   type: AnyDirectory
+  argumentName: training_data_output
 - name: Validation data output
   type: AnyDirectory
+  argumentName: validation_data_output
 - name: Test data output
   type: AnyDirectory
+  argumentName: test_data_output
 implementation:
   container:
     amlEnvironment:

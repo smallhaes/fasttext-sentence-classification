@@ -11,7 +11,7 @@ from utils import load_dataset_parallel, DataIter_Parallel, predict_parallel
 
 @dsl.module(
     name="FastText Score Parallel",
-    version='0.0.10',
+    version='0.0.12',
     description='Predict the category of the input sentences',
     job_type='parallel',
     parallel_inputs=[InputDirectory(name='Texts to score')]
@@ -49,15 +49,6 @@ def fasttext_score_parallel(
         return results
 
     return run
-
-
-def init():
-    global run_batch
-    run_batch = ModuleExecutor(fasttext_score_parallel).init(sys.argv)
-
-
-def run(files):
-    return run_batch(files)
 
 
 if __name__ == '__main__':
