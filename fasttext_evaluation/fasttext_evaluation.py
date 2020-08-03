@@ -10,7 +10,7 @@ from utils import load_dataset, DataIter, test
 
 @dsl.module(
     name="FastText Evaluation",
-    version='0.0.4',
+    version='0.0.6',
     description='Evaluate the trained FastText model'
 )
 def fasttext_evaluation(
@@ -23,10 +23,10 @@ def fasttext_evaluation(
     print(f'trained_model_dir: {Path(trained_model_dir).resolve()}')
     print(f'test_data_dir: {Path(test_data_dir).resolve()}')
     print(f'char2index_dir: {Path(char2index_dir).resolve()}')
-
+    char2index_dir = os.path.join(char2index_dir, 'character2index.json')
     device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
     max_len_ = 38
-    path = os.path.join(test_data_dir, 'test.txt')
+    path = os.path.join(test_data_dir, 'data.txt')
     test_samples = load_dataset(file_path=path, max_len=max_len_, char2index_dir=char2index_dir)
 
     test_iter = DataIter(test_samples)

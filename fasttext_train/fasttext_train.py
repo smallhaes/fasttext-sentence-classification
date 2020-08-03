@@ -10,7 +10,7 @@ from utils import get_vocab, get_classs, load_dataset, DataIter, train
 
 @dsl.module(
     name="FastText Train",
-    version='0.0.36',
+    version='0.0.39',
     description='Train the FastText model. You could adjust the hyperparameters conveniently'
 )
 def fasttext_train(
@@ -27,6 +27,7 @@ def fasttext_train(
     print('============================================')
     print('training_data_dir:', training_data_dir)
     print('validation_data_dir:', validation_data_dir)
+    char2index_dir = os.path.join(char2index_dir, 'character2index.json')
     c2i = get_vocab(char2index_dir)
     class_ = get_classs()
     max_len_ = 38
@@ -34,11 +35,12 @@ def fasttext_train(
     vocab_size_ = len(c2i)
     stop_patience = 5
     device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
-    path = os.path.join(training_data_dir, 'train.txt')
+    path = os.path.join(training_data_dir, 'data.txt')
     train_samples = load_dataset(file_path=path, max_len=max_len_, char2index_dir=char2index_dir)
-    path = os.path.join(validation_data_dir, 'dev.txt')
+    path = os.path.join(validation_data_dir, 'data.txt')
     dev_samples = load_dataset(file_path=path, max_len=max_len_, char2index_dir=char2index_dir)
-
+    print('train_samples.shape:{}'.format(train_samples.shape))
+    print('dev_samples.shape:{}'.format(dev_samples.shape))
     train_iter = DataIter(train_samples, batch_size)
     dev_iter = DataIter(dev_samples, batch_size)
 

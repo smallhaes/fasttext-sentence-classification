@@ -22,7 +22,7 @@ class TestFasttextTrain(unittest.TestCase):
         return {
             'training_data_dir': str(self.base_path / 'fasttext_train' / 'inputs' / 'training_data_dir'),
             'validation_data_dir': str(self.base_path / 'fasttext_train' / 'inputs' / 'validation_data_dir'),
-            'char2index_dir': str(self.base_path / 'fasttext_train' / 'inputs' / 'char2index_dir' / 'character2index.json')
+            'char2index_dir': str(self.base_path / 'fasttext_train' / 'inputs' / 'char2index_dir')
         }
 
     def prepare_outputs(self) -> dict:

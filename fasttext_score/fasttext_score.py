@@ -9,7 +9,7 @@ from utils import load_dataset, DataIter, predict
 
 @dsl.module(
     name="FastText Score",
-    version='0.0.19',
+    version='0.0.20',
     description='Predict the category of the input sentence'
 )
 def fasttext_score(
@@ -21,6 +21,7 @@ def fasttext_score(
     print(f'fasttext_model: {Path(fasttext_model).resolve()}')
     print(f'char2index_dir: {Path(char2index_dir).resolve()}')
     print(f'input_sentence: {input_sentence}')
+    char2index_dir = os.path.join(char2index_dir, 'character2index.json')
     device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
     max_len_ = 38
     path = input_sentence

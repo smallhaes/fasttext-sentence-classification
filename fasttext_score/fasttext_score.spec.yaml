@@ -2,7 +2,7 @@
 #  For more details, please refer to https://aka.ms/azureml-module-specs
 amlModuleIdentifier:
   moduleName: FastText Score
-  moduleVersion: 0.0.19
+  moduleVersion: 0.0.20
 metadata:
   annotations:
     codegenBy: dsl.module

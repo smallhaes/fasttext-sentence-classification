@@ -2,7 +2,7 @@
 #  For more details, please refer to https://aka.ms/azureml-module-specs
 amlModuleIdentifier:
   moduleName: FastText Evaluation
-  moduleVersion: 0.0.4
+  moduleVersion: 0.0.6
 metadata:
   annotations:
     codegenBy: dsl.module

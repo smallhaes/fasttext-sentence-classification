@@ -2,7 +2,7 @@
 #  For more details, please refer to https://aka.ms/azureml-module-specs
 amlModuleIdentifier:
   moduleName: FastText Train
-  moduleVersion: 0.0.36
+  moduleVersion: 0.0.39
 metadata:
   annotations:
     codegenBy: dsl.module
