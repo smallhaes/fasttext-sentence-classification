@@ -5,7 +5,7 @@ from pathlib import Path
 from azureml.pipeline.wrapper.dsl.module import ModuleExecutor, InputDirectory
 from azureml.pipeline.wrapper import dsl
 from inference_schema.schema_decorators import input_schema, output_schema
-from .utils import load_dataset, DataIter, predict
+from utils import load_dataset, DataIter, predict
 from azureml.core.model import Model
 from inference_schema.parameter_types.numpy_parameter_type import NumpyParameterType
 from inference_schema.parameter_types.standard_py_parameter_type import StandardPythonParameterType
