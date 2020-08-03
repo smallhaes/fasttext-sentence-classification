@@ -1,0 +1,47 @@
+import sys
+import unittest
+from pathlib import Path
+
+from azureml.core import Workspace
+from azureml.pipeline.wrapper.dsl.module import ModuleExecutor
+
+# The following line adds source directory to path.
+sys.path.insert(0, str(Path(__file__).parent.parent))
+from MODULE_ENTRY import FUNCTION_NAME
+
+
+class TestMODULE_CLASS_NAME(unittest.TestCase):
+
+    @classmethod
+    def setUpClass(cls) -> None:
+        cls.base_path = Path(__file__).parent.parent / 'data'
+
+    def prepare_inputs(self) -> dict:
+        # Change to your own inputs
+        return INPUTS_TEMPLATE
+
+    def prepare_outputs(self) -> dict:
+        # Change to your own outputs
+        return OUTPUTS_TEMPLATE
+
+    def prepare_parameters(self) -> dict:
+        # Change to your own parameters
+        return PARAMETERS_TEMPLATE
+
+    def prepare_arguments(self) -> dict:
+        # If your input's type is not Path, change this function to your own type.
+        result = {}
+        result.update(self.prepare_inputs())
+        result.update(self.prepare_outputs())
+        result.update(self.prepare_parameters())
+        return result
+
+    def prepare_argv(self):
+        argv = []
+        for k, v in {**self.prepare_inputs(), **self.prepare_outputs(), **self.prepare_parameters(), }.items():
+            argv += ['--' + k, str(v)]
+        return argv
+
+    def test_module_with_execute(self):
+        # This test simulates a parallel run from cmd line arguments to call FUNCTION_NAME.
+        ModuleExecutor(FUNCTION_NAME).execute(self.prepare_argv())

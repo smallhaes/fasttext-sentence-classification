@@ -1,0 +1,13 @@
+{
+  "location": "",
+  "properties": {
+    "computeType": "CmAks",
+    "computeLocation": "",
+    "description": "",
+    "resourceId": "",
+    "properties": {
+      "nodePool": "",
+      "nodesCount": null
+    }
+  }
+}

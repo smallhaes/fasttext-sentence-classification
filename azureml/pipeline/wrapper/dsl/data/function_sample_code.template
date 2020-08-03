@@ -1,0 +1,15 @@
+import sys
+from azureml.pipeline.wrapper import dsl
+from azureml.pipeline.wrapper.dsl.module import ModuleExecutor
+
+from MODULE_NAME import *
+import MODULE_NAME
+
+
+@dsl.module()
+FUNC_DEF
+    return MODULE_NAME.FUNC_NAME(**locals())
+
+
+if __name__ == '__main__':
+    ModuleExecutor(FUNC_NAME).execute(sys.argv)

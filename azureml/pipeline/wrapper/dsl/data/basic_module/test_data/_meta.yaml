@@ -1,0 +1,4 @@
+type: DataFrameDirectory
+extension: {}
+format: Parquet
+data: _data.parquet

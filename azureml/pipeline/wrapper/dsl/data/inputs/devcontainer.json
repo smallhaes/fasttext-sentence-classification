@@ -1,0 +1,4 @@
+{
+    "name": "DebugEnv",
+    "extensions": ["ms-python.python"]
+}

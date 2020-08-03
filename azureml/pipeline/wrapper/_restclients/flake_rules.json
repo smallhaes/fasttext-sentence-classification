@@ -1,0 +1,10 @@
+{
+  "pep8": {
+    "exclude": [
+      "designer/"
+    ],
+    "justifications": [
+      "disable code analysis - generated code"
+    ]
+  }
+}
