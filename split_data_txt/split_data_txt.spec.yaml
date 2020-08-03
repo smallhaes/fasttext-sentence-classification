@@ -2,7 +2,7 @@
 #  For more details, please refer to https://aka.ms/azureml-module-specs
 amlModuleIdentifier:
   moduleName: Split Data Txt
-  moduleVersion: 0.0.28
+  moduleVersion: 0.0.39
 metadata:
   annotations:
     codegenBy: dsl.module
@@ -11,7 +11,9 @@ description: 'Processing objects: text format data set, each line of the text fi
   set and test set.'
 inputs:
 - name: Input dir
-  type: AnyDirectory
+  type:
+  - AnyFile
+  - AnyDirectory
   argumentName: input_dir
   optional: true
 - name: Training data ratio

@@ -10,11 +10,11 @@ from utils import get_vocab, get_classs, load_dataset, DataIter, train
 
 @dsl.module(
     name="FastText Train",
-    version='0.0.35',
+    version='0.0.36',
     description='Train the FastText model. You could adjust the hyperparameters conveniently'
 )
 def fasttext_train(
-        trained_model_dir: OutputDirectory(type='AnyDirectory'),
+        trained_model_dir: OutputDirectory(type='ModelDirectory'),
         training_data_dir: InputDirectory(type='AnyDirectory') = None,
         validation_data_dir: InputDirectory(type='AnyDirectory') = None,
         char2index_dir: InputDirectory(type='AnyDirectory') = None,

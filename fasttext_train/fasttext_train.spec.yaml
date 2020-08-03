@@ -2,7 +2,7 @@
 #  For more details, please refer to https://aka.ms/azureml-module-specs
 amlModuleIdentifier:
   moduleName: FastText Train
-  moduleVersion: 0.0.35
+  moduleVersion: 0.0.36
 metadata:
   annotations:
     codegenBy: dsl.module
@@ -42,7 +42,7 @@ inputs:
   optional: true
 outputs:
 - name: Trained model dir
-  type: AnyDirectory
+  type: ModelDirectory
   argumentName: trained_model_dir
 implementation:
   container:

@@ -32,8 +32,8 @@ class TestSplitDataTxt(unittest.TestCase):
     def prepare_parameters(self) -> dict:
         # Change to your own parameters
         return {
-            'training_data_ratio': 0.7,
-            'validation_data_ratio': 0.1,
+            'training_data_ratio': 0.65,
+            'validation_data_ratio': 0.15,
             'random_split': False,
             'seed': 123
         }
