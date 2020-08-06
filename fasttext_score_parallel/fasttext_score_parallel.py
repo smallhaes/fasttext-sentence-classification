@@ -36,8 +36,6 @@ def fasttext_score_parallel(
     def run(files):
         if len(files) == 0:
             return []
-        print(f"Ready to process {len(files)} texts.")
-        print('\n'.join(files))
 
         with torch.no_grad():
             test_samples = load_dataset_parallel(files=files, max_len=max_len_, char2index_dir=char2index_dir)
@@ -45,8 +43,6 @@ def fasttext_score_parallel(
             results = predict_parallel(model, test_iter, device)
             dict_ = {'Filename': files, 'Class': results}
             df = pd.DataFrame(data=dict_)
-            print("Result:")
-            print(df)
             output_file = os.path.join(scored_dataset_dir, f"{uuid4().hex}.parquet")
             df.to_parquet(output_file, index=False)
         return results

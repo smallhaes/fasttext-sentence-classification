@@ -2,7 +2,7 @@
 #  For more details, please refer to https://aka.ms/azureml-module-specs
 amlModuleIdentifier:
   moduleName: FastText Score
-  moduleVersion: 0.0.20
+  moduleVersion: 0.0.21
 description: Predict the category of the input sentence
 implementation:
   container:

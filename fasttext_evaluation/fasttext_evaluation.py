@@ -12,7 +12,7 @@ from common.utils import load_dataset, DataIter, test
 
 @dsl.module(
     name="FastText Evaluation",
-    version='0.0.6',
+    version='0.0.7',
     description='Evaluate the trained FastText model'
 )
 def fasttext_evaluation(

@@ -2,7 +2,7 @@
 #  For more details, please refer to https://aka.ms/azureml-module-specs
 amlModuleIdentifier:
   moduleName: Compare Two Models
-  moduleVersion: 0.0.17
+  moduleVersion: 0.0.18
 description: Choose the better model according to accuracy
 implementation:
   container:

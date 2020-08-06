@@ -11,7 +11,7 @@ from azureml.pipeline.wrapper import dsl
 
 @dsl.module(
     name="Compare Two Models",
-    version="0.0.17",
+    version="0.0.18",
     description="Choose the better model according to accuracy"
 )
 def compare_two_models(

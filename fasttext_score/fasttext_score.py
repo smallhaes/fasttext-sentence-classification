@@ -11,7 +11,7 @@ from common.utils import load_dataset, DataIter, predict
 
 @dsl.module(
     name="FastText Score",
-    version='0.0.20',
+    version='0.0.21',
     description='Predict the category of the input sentence'
 )
 def fasttext_score(
