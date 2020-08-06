@@ -3,10 +3,22 @@
 amlModuleIdentifier:
   moduleName: FastText Evaluation
   moduleVersion: 0.0.6
-metadata:
-  annotations:
-    codegenBy: dsl.module
 description: Evaluate the trained FastText model
+implementation:
+  container:
+    amlEnvironment:
+      python:
+        condaDependenciesFile: fasttext_evaluation/conda.yaml
+    args:
+    - [--trained_model_dir, inputPath: Trained model dir]
+    - [--test_data_dir, inputPath: Test data dir]
+    - [--char2index_dir, inputPath: Char2index dir]
+    - --model_testing_result
+    - outputPath: Model testing result
+    command:
+    - python
+    - fasttext_evaluation/fasttext_evaluation.py
+    sourceDirectory: ../
 inputs:
 - name: Trained model dir
   type: AnyDirectory
@@ -20,21 +32,10 @@ inputs:
   type: AnyDirectory
   argumentName: char2index_dir
   optional: true
+metadata:
+  annotations:
+    codegenBy: dsl.module
 outputs:
 - name: Model testing result
   type: AnyDirectory
   argumentName: model_testing_result
-implementation:
-  container:
-    amlEnvironment:
-      python:
-        condaDependenciesFile: conda.yaml
-    command:
-    - python
-    - fasttext_evaluation.py
-    args:
-    - [--trained_model_dir, inputPath: Trained model dir]
-    - [--test_data_dir, inputPath: Test data dir]
-    - [--char2index_dir, inputPath: Char2index dir]
-    - --model_testing_result
-    - outputPath: Model testing result

@@ -3,14 +3,24 @@
 amlModuleIdentifier:
   moduleName: FastText Score
   moduleVersion: 0.0.20
-metadata:
-  annotations:
-    codegenBy: dsl.module
 description: Predict the category of the input sentence
+implementation:
+  container:
+    amlEnvironment:
+      python:
+        condaDependenciesFile: fasttext_score/conda.yaml
+    args:
+    - [--fasttext_model_dir, inputPath: Fasttext model dir]
+    - [--char2index_dir, inputPath: Char2index dir]
+    - [--input_sentence, inputValue: Input sentence]
+    command:
+    - python
+    - fasttext_score/fasttext_score.py
+    sourceDirectory: ../
 inputs:
-- name: Fasttext model
+- name: Fasttext model dir
   type: AnyDirectory
-  argumentName: fasttext_model
+  argumentName: fasttext_model_dir
   optional: true
 - name: Char2index dir
   type: AnyDirectory
@@ -21,16 +31,7 @@ inputs:
   argumentName: input_sentence
   default: I like playing football very much
   optional: true
+metadata:
+  annotations:
+    codegenBy: dsl.module
 outputs: []
-implementation:
-  container:
-    amlEnvironment:
-      python:
-        condaDependenciesFile: conda.yaml
-    command:
-    - python
-    - fasttext_score.py
-    args:
-    - [--fasttext_model, inputPath: Fasttext model]
-    - [--char2index_dir, inputPath: Char2index dir]
-    - [--input_sentence, inputValue: Input sentence]

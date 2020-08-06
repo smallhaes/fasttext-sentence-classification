@@ -1,9 +1,8 @@
+.*
 __pycache__
-.amlignore
-.gitignore
-.vscode
-.backup
-.devcontainer
+ipynb_checkpoints
+tests
+*.ipynb
+config.json
+data
 outputs
-.debug
-.git

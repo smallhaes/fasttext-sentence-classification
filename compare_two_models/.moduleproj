@@ -1,0 +1,3 @@
+modules:
+-   entry: compare_two_models.py
+    sourceDirectory: .

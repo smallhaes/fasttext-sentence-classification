@@ -1,3 +1,4 @@
+import os
 import sys
 import unittest
 from pathlib import Path
@@ -19,22 +20,22 @@ class TestFasttextEvaluation(unittest.TestCase):
 
     def prepare_inputs(self) -> dict:
         # Change to your own inputs
-        return {'input_dir': str(self.base_path / 'fasttext_evaluation' / 'inputs' / 'input_dir')}
+        return {
+            'trained_model_dir': str(self.base_path / 'fasttext_evaluation' / 'inputs' / 'trained_model_dir'),
+            'test_data_dir': str(self.base_path / 'fasttext_evaluation' / 'inputs' / 'test_data_dir'),
+            'char2index_dir': str(
+                self.base_path / 'fasttext_evaluation' / 'inputs' / 'char2index_dir')
+        }
 
     def prepare_outputs(self) -> dict:
         # Change to your own outputs
-        return {'output_dir': str(self.base_path / 'fasttext_evaluation' / 'outputs' / 'output_dir')}
-
-    def prepare_parameters(self) -> dict:
-        # Change to your own parameters
-        return {'str_param': ''}
+        return {'model_testing_result': str(self.base_path / 'fasttext_evaluation' / 'outputs' / 'model_testing_result')}
 
     def prepare_arguments(self) -> dict:
         # If your input's type is not Path, change this function to your own type.
         result = {}
         result.update(self.prepare_inputs())
         result.update(self.prepare_outputs())
-        result.update(self.prepare_parameters())
         return result
 
     def test_module_from_func(self):
@@ -49,3 +50,6 @@ class TestFasttextEvaluation(unittest.TestCase):
     def test_module_func(self):
         # This test calls fasttext_evaluation from parameters directly.
         fasttext_evaluation(**self.prepare_arguments())
+        # check the existence of result.json
+        path_result = os.path.join(self.prepare_outputs()['model_testing_result'], 'result.json')
+        self.assertTrue(os.path.exists(path_result))

@@ -3,9 +3,10 @@ import sys
 import json
 import shutil
 from pathlib import Path
+
+from azureml.core import Run
 from azureml.pipeline.wrapper.dsl.module import ModuleExecutor, InputDirectory, OutputDirectory
 from azureml.pipeline.wrapper import dsl
-from azureml.core import Run
 
 
 @dsl.module(
@@ -15,24 +16,23 @@ from azureml.core import Run
 )
 def compare_two_models(
         the_better_model: OutputDirectory(),
-        first_trained_model: InputDirectory(type='AnyDirectory') = None,
-        first_trained_result: InputDirectory(type='AnyDirectory') = None,
-        second_trained_model: InputDirectory(type='AnyDirectory') = None,
-        second_trained_result: InputDirectory(type='AnyDirectory') = None,
+        first_trained_model: InputDirectory() = None,
+        first_trained_result: InputDirectory() = None,
+        second_trained_model: InputDirectory() = None,
+        second_trained_result: InputDirectory() = None
 ):
+    # hardcode: result.json and BestModel
     print('=====================================================')
     print(f'input_dir: {Path(first_trained_model).resolve()}')
     print(f'input_dir: {Path(first_trained_result).resolve()}')
     print(f'input_dir: {Path(second_trained_model).resolve()}')
     print(f'input_dir: {Path(second_trained_result).resolve()}')
-    # for logging
+    # for metrics
     run = Run.get_context()
     path = os.path.join(first_trained_result, 'result.json')
     result_first = json.load(open(path, 'r'))['acc']
-
     path = os.path.join(second_trained_result, 'result.json')
     second_first = json.load(open(path, 'r'))['acc']
-
     dst = os.path.join(the_better_model, 'BestModel')
     if result_first >= second_first:
         print('choose the first model')

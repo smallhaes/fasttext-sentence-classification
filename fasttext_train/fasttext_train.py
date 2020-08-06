@@ -2,10 +2,12 @@ import os
 import sys
 import time
 import torch
+
 from azureml.pipeline.wrapper import dsl
 from azureml.pipeline.wrapper.dsl.module import ModuleExecutor, InputDirectory, OutputDirectory
-from FastText import FastText
-from utils import get_vocab, get_classs, load_dataset, DataIter, train
+from common.FastText import FastText
+
+from common.utils import get_vocab, get_classs, load_dataset, DataIter, train
 
 
 @dsl.module(
@@ -15,15 +17,15 @@ from utils import get_vocab, get_classs, load_dataset, DataIter, train
 )
 def fasttext_train(
         trained_model_dir: OutputDirectory(type='ModelDirectory'),
-        training_data_dir: InputDirectory(type='AnyDirectory') = None,
-        validation_data_dir: InputDirectory(type='AnyDirectory') = None,
-        char2index_dir: InputDirectory(type='AnyDirectory') = None,
+        training_data_dir: InputDirectory() = None,
+        validation_data_dir: InputDirectory() = None,
+        char2index_dir: InputDirectory() = None,
         epochs=1,
         batch_size=64,
         learning_rate=0.0005,
         embedding_dim=128
-
 ):
+    # hardcode: character2index.json and data.txt
     print('============================================')
     print('training_data_dir:', training_data_dir)
     print('validation_data_dir:', validation_data_dir)
@@ -46,14 +48,8 @@ def fasttext_train(
 
     model = FastText(vocab_size=vocab_size_, n_class=n_class_, embed_dim=embedding_dim)
     start = time.time()
-    train(model,
-          trained_model_dir,
-          train_iter,
-          dev_iter=dev_iter,
-          epochs=epochs,
-          learning_rate=learning_rate,
-          stop_patience=stop_patience,
-          device=device)
+    train(model, trained_model_dir, train_iter, dev_iter=dev_iter, epochs=epochs, learning_rate=learning_rate,
+          stop_patience=stop_patience, device=device)
     end = time.time()
     print('\nspent time: %.2f sec' % (end - start))
     print('============================================')

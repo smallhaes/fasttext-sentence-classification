@@ -1,0 +1,3 @@
+modules:
+-   entry: fasttext_evaluation.py
+    sourceDirectory: ..

@@ -1,12 +1,13 @@
 import os
 import sys
-import torch
 import pandas as pd
 from uuid import uuid4
+
+import torch
 from pathlib import Path
 from azureml.pipeline.wrapper.dsl.module import ModuleExecutor, InputDirectory, OutputDirectory
 from azureml.pipeline.wrapper import dsl
-from utils import load_dataset_parallel, DataIter_Parallel, predict_parallel
+from common.utils import load_dataset_parallel, DataIter_Parallel, predict_parallel
 
 
 @dsl.module(
@@ -17,17 +18,19 @@ from utils import load_dataset_parallel, DataIter_Parallel, predict_parallel
     parallel_inputs=[InputDirectory(name='Texts to score')]
 )
 def fasttext_score_parallel(
-        scored_dataset: OutputDirectory(type='AnyDirectory'),
-        fasttext_model: InputDirectory(type='AnyDirectory') = '.',
-        char2index_dir: InputDirectory(type='AnyDirectory') = None
+        scored_dataset_dir: OutputDirectory(),
+        fasttext_model_dir: InputDirectory() = '.',
+        char2index_dir: InputDirectory() = None
 ):
+    # hardcode: BestModel
     print('=====================================================')
-    print(f'fasttext_model: {Path(fasttext_model).resolve()}')
+    print(f'fasttext_model: {Path(fasttext_model_dir).resolve()}')
     print(f'char2index_dir: {Path(char2index_dir).resolve()}')
-    print(f'scored_dataset: {scored_dataset}')
+    print(f'scored_dataset: {scored_dataset_dir}')
+    char2index_dir = os.path.join(char2index_dir, 'character2index.json')
     device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
     max_len_ = 38
-    path = os.path.join(fasttext_model, 'BestModel')
+    path = os.path.join(fasttext_model_dir, 'BestModel')
     model = torch.load(f=path)
 
     def run(files):
@@ -44,12 +47,14 @@ def fasttext_score_parallel(
             df = pd.DataFrame(data=dict_)
             print("Result:")
             print(df)
-            output_file = os.path.join(scored_dataset, f"{uuid4().hex}.parquet")
+            output_file = os.path.join(scored_dataset_dir, f"{uuid4().hex}.parquet")
             df.to_parquet(output_file, index=False)
         return results
 
     return run
 
 
+# This main code is only used for local debugging, will never be reached in AzureML when it is a parallel module.
+# See https://docs.microsoft.com/en-us/azure/machine-learning/how-to-use-parallel-run-step#write-your-inference-script
 if __name__ == '__main__':
     ModuleExecutor(fasttext_score_parallel).execute(sys.argv)
