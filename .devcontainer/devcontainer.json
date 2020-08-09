@@ -15,8 +15,8 @@
 
 	// Add the IDs of extensions you want installed when the container is created.
 	"extensions": [
-		"ms-python.python",
-		"wyi273jdeg.covjhmaizg"
+		"ms-python.python"
+		// "wyi273jdeg.covjhmaizg"
 		//"ms-toolsai.vscode-ai"
 	],
 	
