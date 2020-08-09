@@ -15,9 +15,9 @@
 
 	// Add the IDs of extensions you want installed when the container is created.
 	"extensions": [
-		"ms-python.python"
+		"ms-python.python",
 		// "wyi273jdeg.covjhmaizg"
-		//"ms-toolsai.vscode-ai"
+		"ms-toolsai.vscode-ai"
 	],
 	
 	// Uncomment to connect as a non-root user. See https://aka.ms/vscode-remote/containers/non-root.
