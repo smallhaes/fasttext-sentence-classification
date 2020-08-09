@@ -5,8 +5,8 @@ import torch
 
 from azureml.pipeline.wrapper import dsl
 from azureml.pipeline.wrapper.dsl.module import ModuleExecutor, InputDirectory, OutputDirectory
-from common.FastText import FastText
 
+from common.FastText import FastText
 from common.utils import get_vocab, get_classs, load_dataset, DataIter, train
 
 

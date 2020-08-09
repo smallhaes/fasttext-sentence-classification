@@ -9,7 +9,7 @@ from azureml.pipeline.wrapper.dsl.module import ModuleExecutor, OutputDirectory,
 
 @dsl.module(
     name="Split Data Txt",
-    version='0.0.41',
+    version='0.0.42',
     description='Processing objects: text format data set, each line of the text file is a piece of data, \
     this module divides the data set into training set, verification set and test set.'
 )

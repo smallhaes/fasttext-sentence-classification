@@ -10,7 +10,7 @@ implementation:
   container:
     amlEnvironment:
       python:
-        condaDependenciesFile: split_data_txt_for_parallel/conda.yaml
+        condaDependenciesFile: conda.yaml
     args:
     - [--input_dir, inputPath: Input dir]
     - [--training_data_ratio, inputValue: Training data ratio]
@@ -25,8 +25,7 @@ implementation:
     - outputPath: Test data output
     command:
     - python
-    - split_data_txt_for_parallel/split_data_txt_for_parallel.py
-    sourceDirectory: ../
+    - split_data_txt_for_parallel.py
 inputs:
 - name: Input dir
   type: AnyDirectory

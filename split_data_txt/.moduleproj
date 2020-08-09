@@ -1,3 +1,0 @@
-modules:
--   entry: split_data_txt.py
-    sourceDirectory: .
