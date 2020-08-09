@@ -9,13 +9,15 @@ ARG USER_GID=$USER_UID
 ARG CONDA_URL=https://repo.anaconda.com/miniconda/Miniconda3-py37_4.8.3-Linux-x86_64.sh
 ARG CONDA_DIR=/home/$USERNAME/.conda
 ARG CONDA_ENV_NAME=azureml
+ARG CONDA_ENV_DIR=$CONDA_DIR/envs/$CONDA_ENV_NAME
 ARG PYTHON_VERSION=3.7
 
 # sdk version
 ARG SDK_VERSION_URL=https://modulesdkpreview.blob.core.windows.net/sdk/preview/version.txt
 
+# env
 ENV LANG=C.UTF-8 LC_ALL=C.UTF-8
-ENV PATH $CONDA_DIR/bin:$PATH
+ENV PATH $CONDA_DIR/bin:$CONDA_ENV_DIR/bin:$PATH
 
 # install common softwares
 RUN groupadd --gid 800 docker && \
@@ -49,11 +51,14 @@ RUN wget --quiet $CONDA_URL -O ~/miniconda.sh && \
     SDK_INDEX=CLI-SDK-Runners-Validation && \
     SDK_SOURCE=https://azuremlsdktestpypi.azureedge.net/$SDK_INDEX/$SDK_VERSION_SHORT && \
     SDK_VERSION_LONG=0.1.0.$SDK_VERSION_SHORT && \
-    $CONDA_DIR/envs/$CONDA_ENV_NAME/bin/pip install azureml-defaults==$SDK_VERSION_LONG azureml-pipeline-core==$SDK_VERSION_LONG azureml-pipeline-wrapper[notebooks]==$SDK_VERSION_LONG --extra-index-url=$SDK_SOURCE
+    AZ_EXTENSION_SOURCE=https://azuremlsdktestpypi.azureedge.net/$SDK_INDEX/$SDK_VERSION_SHORT/azure_cli_ml-0.1.0.$SDK_VERSION_SHORT-py3-none-any.whl && \
+    $CONDA_DIR/envs/$CONDA_ENV_NAME/bin/pip install azure-cli azureml-defaults==$SDK_VERSION_LONG azureml-pipeline-core==$SDK_VERSION_LONG azureml-pipeline-wrapper[notebooks]==$SDK_VERSION_LONG --extra-index-url=$SDK_SOURCE && \
+    az extension add --source $AZ_EXTENSION_SOURCE --pip-extra-index-urls $SDK_SOURCE --yes
 
 # change the user
 USER root
 
+# init
 ENV TINI_VERSION v0.16.1
 ADD https://github.com/krallin/tini/releases/download/${TINI_VERSION}/tini /usr/bin/tini
 RUN chmod +x /usr/bin/tini
