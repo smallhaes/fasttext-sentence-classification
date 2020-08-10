@@ -1,4 +1,6 @@
 # azureml-designer-demo
+
+#### Overview
 In this repository, we customize some modules used on the Azure Machine Learning designer to reproduce the model of [fastText](https://arxiv.org/pdf/1607.01759.pdf). 
 If you have access to [Visual Studio Codespaces](https://visualstudio.microsoft.com/services/visual-studio-codespaces/), then you do not need to install the development tools and configure the environment. Because, they will be prepared automatically. Refer to ``` .devcontainer/how-to-use-Dockerfile.md ``` for more details about how to build your own docker image use on Codespaces.
 
@@ -17,7 +19,7 @@ If you have access to [Visual Studio Codespaces](https://visualstudio.microsoft.
 
 7. ```compare_two_models``` compares the evaluation results of two trained models and saves the better one.
 
-   
+
 
 #### Demo Description
 
