@@ -1,3 +1,0 @@
-modules:
--   entry: fasttext_score_parallel.py
-    sourceDirectory: ..

@@ -134,7 +134,7 @@ def predict(model, data_iter, device):
     return get_classs_reverse()[int(p_)]
 
 
-def predict_parallel(model, data_iter, device):
+def predict_parallel(model, data_iter, device, map_id_label):
     model.eval()
     # for metrics
     # run = Run.get_context()
@@ -143,42 +143,39 @@ def predict_parallel(model, data_iter, device):
         dev_x_ = torch.LongTensor(x).to(device)
         outputs = model(dev_x_)
         p_ = torch.max(outputs.data, 1)[1].cpu().numpy()
-        results = [get_classs_reverse()[p] for p in p_]
+        results = [map_id_label[p] for p in p_]
         # run.log(name='Prediction Result', value=results)
     return results
 
 
-def get_vocab(char2index_dir):
-    c2i = json.load(open(char2index_dir, 'r', encoding='utf-8'))
-    return c2i
+def get_vocab(path_word_to_index):
+    w2i = json.load(open(path_word_to_index, 'r', encoding='utf-8'))
+    return w2i
 
 
-def get_classs():
-    res = {'finance': 0,
-           'realty': 1,
-           'stocks': 2,
-           'education': 3,
-           'science': 4,
-           'society': 5,
-           'politics': 6,
-           'sports': 7,
-           'game': 8,
-           'entertainment': 9}
-    return res
+def get_id_label(path_label):
+    map_id_label = {}
+    map_label_id = {}
+    with open(path_label, 'r', encoding='utf-8') as f:
+        for i, label in enumerate(f.readlines()):
+            label = label.rstrip()
+            map_id_label[i] = label
+            map_label_id[label] = i
+    return map_id_label, map_label_id
 
 
-def get_classs_reverse():
-    res = {0: 'finance',
-           1: 'realty',
-           2: 'stocks',
-           3: 'education',
-           4: 'science',
-           5: 'society',
-           6: 'politics',
-           7: 'sports',
-           8: 'game',
-           9: 'entertainment'}
-    return res
+# def get_classs_reverse():
+#     res = {0: 'finance',
+#            1: 'realty',
+#            2: 'stocks',
+#            3: 'education',
+#            4: 'science',
+#            5: 'society',
+#            6: 'politics',
+#            7: 'sports',
+#            8: 'game',
+#            9: 'entertainment'}
+#     return res
 
 
 def shuffle_samples(samples):
@@ -189,37 +186,26 @@ def shuffle_samples(samples):
     return samples
 
 
-def load_dataset(file_path='', max_len=38, char2index_dir=''):
-    c2i = get_vocab(char2index_dir)
-    pad_id = c2i.get('[PAD]', 0)
+def load_dataset(file_path='', max_len=38, word_to_index=None, map_label_id=None):
+    pad_id = word_to_index.get('[PAD]', 0)
     samples = []
-    if os.path.exists(file_path):
-        with open(file_path, 'r', encoding='utf-8') as f:
-            texts = f.read().split("\n")
-            texts = [item.strip() for item in texts if len(item) > 0]
-        for line in tqdm(texts, desc="character to index"):
-            line_s = line.split('\t')
-            if len(line_s) < 2:
-                continue
-            context, label = line_s[0], line_s[1]
-            line_data = ([c2i.get(c, 1) for c in context]) + [pad_id] * (max_len - len(context))
-            line_data = line_data[:max_len]
-            samples.append((line_data, int(label)))
-    # for prediction
-    else:
-        context = file_path
-        line_data = ([c2i.get(c, 1) for c in context]) + [pad_id] * (max_len - len(context))
+    with open(file_path, 'r', encoding='utf-8') as f:
+        texts = f.read().split("\n")
+        texts = [item.strip() for item in texts if len(item) > 0]
+    for line in tqdm(texts, desc="word to index"):
+        line_s = line.split('\t')
+        if len(line_s) < 2:
+            continue
+        context, label = line_s[0], line_s[1]
+        line_data = ([word_to_index.get(c, 1) for c in context]) + [pad_id] * (max_len - len(context))
         line_data = line_data[:max_len]
-        samples.append((line_data, 0))  # fake label
-
+        samples.append((line_data, map_label_id[label]))
     samples = np.array(samples)
-
     return samples
 
 
-def load_dataset_parallel(files=[], max_len=38, char2index_dir=''):
-    c2i = get_vocab(char2index_dir)
-    pad_id = c2i.get('[PAD]', 0)
+def load_dataset_parallel(files=None, max_len=38, word_to_index=None):
+    pad_id = word_to_index.get('[PAD]', 0)
     samples = []
     texts = []
     for file in files:
@@ -227,14 +213,12 @@ def load_dataset_parallel(files=[], max_len=38, char2index_dir=''):
             texts.append(f.read().strip())
 
     texts = [item.strip() for item in texts if len(item) > 0]
-    for line in tqdm(texts, desc="character to index"):
-        line_s = line.split('\t')
-        if len(line_s) < 2:
-            continue
-        context, label = line_s[0], line_s[1]
-        line_data = ([c2i.get(c, 1) for c in context]) + [pad_id] * (max_len - len(context))
+    for text in tqdm(texts, desc="word to index"):
+        text = text.split(' ')
+        line_data = ([word_to_index.get(word, 1) for word in text]) + [pad_id] * (max_len - len(text))
         line_data = line_data[:max_len]
-        samples.append((line_data, int(label)))
+        # zero is a placeholder
+        samples.append((line_data, 0))
 
     samples = np.array(samples)
 

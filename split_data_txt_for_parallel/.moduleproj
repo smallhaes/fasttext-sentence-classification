@@ -1,3 +1,0 @@
-modules:
--   entry: split_data_txt_for_parallel.py
-    sourceDirectory: .

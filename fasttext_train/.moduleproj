@@ -1,3 +1,0 @@
-modules:
--   entry: fasttext_train.py
-    sourceDirectory: ..

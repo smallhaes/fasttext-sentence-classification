@@ -4,7 +4,7 @@ import torch
 from inference_schema.schema_decorators import input_schema, output_schema
 from inference_schema.parameter_types.standard_py_parameter_type import StandardPythonParameterType
 
-from utils import load_dataset, DataIter, predict
+from common.utils import load_dataset, DataIter, predict
 
 
 def init():
