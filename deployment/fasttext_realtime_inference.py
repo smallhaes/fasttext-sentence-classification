@@ -21,7 +21,7 @@ def init():
     model_name = 'BestModel'
     model_path = os.path.join(model_dir, model_name)
     model = torch.load(f=model_path)
-    
+
 
 
 standard_sample_input = {'input_sentence': 'i want to travel around the world'}
