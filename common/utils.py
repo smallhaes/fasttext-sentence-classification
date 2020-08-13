@@ -191,9 +191,8 @@ def load_dataset(file_path='', max_len=38, word_to_index=None, map_label_id=None
 
 
 def load_dataset_for_deployment(input_sentence='', max_len=38, word_to_index=None):
-    import jieba
     pad_id = word_to_index.get('[PAD]', 0)
-    input_sentence = list(filter(lambda x: x != ' ', jieba.lcut(input_sentence)))
+    input_sentence = input_sentence.split(' ')
     line_data = ([word_to_index.get(c, 1) for c in input_sentence]) + [pad_id] * (max_len - len(input_sentence))
     line_data = line_data[:max_len]
     samples = [(line_data, 0)]
