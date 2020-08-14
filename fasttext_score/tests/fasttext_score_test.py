@@ -21,7 +21,8 @@ class TestFasttextScore(unittest.TestCase):
         # Change to your own inputs
         return {'fasttext_model_dir': str(self.base_path / 'fasttext_train' / 'data' / 'fasttext_train'
                                           / 'outputs' / 'trained_model_dir'),
-                'texts_to_score': str(self.base_path / 'data_for_batch_inference')
+                'texts_to_score': str(self.base_path / 'fasttext_score' / 'data' / 'fasttext_score'
+                                      / 'inputs' / 'input_files')
                 }
 
     def prepare_outputs(self) -> dict:
