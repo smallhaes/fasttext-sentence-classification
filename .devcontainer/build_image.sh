@@ -10,7 +10,7 @@ USERNAME=$line
 SDK_VERSION_SHORT=`curl -s https://modulesdkpreview.blob.core.windows.net/sdk/preview/version.txt`
 SDK_VERSION_SHORT=${SDK_VERSION_SHORT:0:8}
 # the repository name displayed on docker hub
-REPOSITORY_NAME=azureml-sdk-demo
+REPOSITORY_NAME=azureml-sdk
 # the complete name of the image with a tag
 TARGET_NAME=${USERNAME}/${REPOSITORY_NAME}:$SDK_VERSION_SHORT
 # build an image from a Dockerfile
