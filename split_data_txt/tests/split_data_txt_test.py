@@ -57,6 +57,10 @@ class TestSplitDataTxt(unittest.TestCase):
         self.assertEqual(status, 'Completed', 'Module run failed.')
 
     def test_module_func(self):
+        paths = self.prepare_outputs()
+        for path in paths.values():
+            os.makedirs(path, exist_ok=True)
+
         # This test calls split_data_txt from parameters directly.
         split_data_txt(**self.prepare_arguments())
         # check ratio
@@ -66,7 +70,6 @@ class TestSplitDataTxt(unittest.TestCase):
         path_input = os.path.join(self.prepare_inputs()['input_dir'], 'data.txt')
         num_total = len(open(path_input, 'r', encoding='utf-8').readlines())
 
-        paths = self.prepare_outputs()
         path_training_data_output = os.path.join(paths['training_data_output'], 'data.txt')
         path_validation_data_output = os.path.join(paths['validation_data_output'], 'data.txt')
         path_test_data_output = os.path.join(paths['test_data_output'], 'data.txt')

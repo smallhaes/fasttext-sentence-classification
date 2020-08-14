@@ -45,7 +45,7 @@ class TestFasttextScore(unittest.TestCase):
 
     def test_module_with_execute(self):
         # delete files created before
-        result_dir = '../data/fasttext_score/outputs/scored_data_output_dir'
+        result_dir = self.prepare_outputs()['scored_data_output_dir']
         os.makedirs(result_dir, exist_ok=True)
         if len(os.listdir(result_dir)) > 0:
             for file in os.listdir(result_dir):
