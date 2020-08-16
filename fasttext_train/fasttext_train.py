@@ -13,8 +13,8 @@ from common.utils import get_vocab, get_id_label, load_dataset, DataIter, train
 
 @dsl.module(
     name="FastText Train",
-    version='0.0.40',
-    description='Train the FastText model. You could adjust the hyperparameters conveniently'
+    version='0.0.41',
+    description='Train the fastText model.'
 )
 def fasttext_train(
         trained_model_dir: OutputDirectory(type='ModelDirectory'),
@@ -22,10 +22,14 @@ def fasttext_train(
         validation_data_dir: InputDirectory() = None,
         epochs=1,
         batch_size=64,
-        learning_rate=0.0005,
-        embedding_dim=128
+        max_len=32,
+        embed_dim=300,
+        hidden_size=256,
+        ngram_size=200000,
+        learning_rate=0.001
+
 ):
-    # hardcode: word_to_index.json and data.txt
+    # hardcode: word_to_index.json, label.txt, and data.txt
     print('============================================')
     print('training_data_dir:', training_data_dir)
     print('validation_data_dir:', validation_data_dir)
@@ -33,30 +37,34 @@ def fasttext_train(
     word_to_index = get_vocab(path_word_to_index)
     path_label = os.path.join(training_data_dir, 'label.txt')
     map_id_label, map_label_id = get_id_label(path_label)
-    n_class_ = len(map_id_label)
-    vocab_size_ = len(word_to_index)
-    max_len_ = 32
+    class_num = len(map_id_label)
+    vocab_size = len(word_to_index)
     stop_patience = 5
     device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
+    print('device:', device)
+    # load training dataset
     path = os.path.join(training_data_dir, 'data.txt')
-    train_samples = load_dataset(file_path=path, max_len=max_len_, word_to_index=word_to_index,
+    train_samples = load_dataset(file_path=path, max_len=max_len, word_to_index=word_to_index,
                                  map_label_id=map_label_id)
+    train_iter = DataIter(samples=train_samples, batch_size=batch_size, shuffle=True, device=device)
+    # load validation dataset
     path = os.path.join(validation_data_dir, 'data.txt')
-    dev_samples = load_dataset(file_path=path, max_len=max_len_, word_to_index=word_to_index,
+    dev_samples = load_dataset(file_path=path, max_len=max_len, word_to_index=word_to_index,
                                map_label_id=map_label_id)
-    print('train_samples.shape:{}'.format(train_samples.shape))
-    print('dev_samples.shape:{}'.format(dev_samples.shape))
-    train_iter = DataIter(train_samples, batch_size)
-    dev_iter = DataIter(dev_samples, batch_size)
+    dev_iter = DataIter(samples=dev_samples, batch_size=batch_size, shuffle=True, device=device)
 
-    model = FastText(vocab_size=vocab_size_, n_class=n_class_, embed_dim=embedding_dim)
-    start = time.time()
+    model = FastText(vocab_size=vocab_size, class_num=class_num, embed_dim=embed_dim,
+                     hidden_size=hidden_size, ngram_size=ngram_size)
+    # watch parameters
+    print(model.parameters)
+    # copy word_to_index.json and label.txt for later scoring.
     shutil.copy(src=path_word_to_index, dst=trained_model_dir)
     shutil.copy(src=path_label, dst=trained_model_dir)
-    train(model, trained_model_dir, train_iter, dev_iter=dev_iter, epochs=epochs, learning_rate=learning_rate,
-          stop_patience=stop_patience, device=device)
+    start = time.time()
+    train(model, trained_model_dir, train_iter=train_iter, dev_iter=dev_iter, epochs=epochs,
+          learning_rate=learning_rate, stop_patience=stop_patience, device=device)
     end = time.time()
-    print('\nspent time: %.2f sec' % (end - start))
+    print('\nduration of training process: %.2f sec' % (end - start))
     print('============================================')
 
 

@@ -17,5 +17,6 @@ LATEST_NAME=${USERNAME}/${REPOSITORY_NAME}:latest
 # build an image from a Dockerfile
 docker build -t ${TARGET_NAME} .
 docker push ${TARGET_NAME}
+# update the latest version
 docker tag ${TARGET_NAME} ${LATEST_NAME}
 docker push ${LATEST_NAME}

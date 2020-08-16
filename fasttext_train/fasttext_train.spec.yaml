@@ -2,8 +2,8 @@
 #  For more details, please refer to https://aka.ms/azureml-module-specs
 amlModuleIdentifier:
   moduleName: FastText Train
-  moduleVersion: 0.0.40
-description: Train the FastText model. You could adjust the hyperparameters conveniently
+  moduleVersion: 0.0.41
+description: Train the fastText model.
 implementation:
   container:
     amlEnvironment:
@@ -14,8 +14,11 @@ implementation:
     - [--validation_data_dir, inputPath: Validation data dir]
     - [--epochs, inputValue: Epochs]
     - [--batch_size, inputValue: Batch size]
+    - [--max_len, inputValue: Max len]
+    - [--embed_dim, inputValue: Embed dim]
+    - [--hidden_size, inputValue: Hidden size]
+    - [--ngram_size, inputValue: Ngram size]
     - [--learning_rate, inputValue: Learning rate]
-    - [--embedding_dim, inputValue: Embedding dim]
     - --trained_model_dir
     - outputPath: Trained model dir
     command:
@@ -41,15 +44,30 @@ inputs:
   argumentName: batch_size
   default: 64
   optional: true
+- name: Max len
+  type: Integer
+  argumentName: max_len
+  default: 32
+  optional: true
+- name: Embed dim
+  type: Integer
+  argumentName: embed_dim
+  default: 300
+  optional: true
+- name: Hidden size
+  type: Integer
+  argumentName: hidden_size
+  default: 256
+  optional: true
+- name: Ngram size
+  type: Integer
+  argumentName: ngram_size
+  default: 200000
+  optional: true
 - name: Learning rate
   type: Float
   argumentName: learning_rate
-  default: 0.0005
-  optional: true
-- name: Embedding dim
-  type: Integer
-  argumentName: embedding_dim
-  default: 128
+  default: 0.001
   optional: true
 metadata:
   annotations:

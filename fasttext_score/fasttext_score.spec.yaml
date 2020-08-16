@@ -2,7 +2,7 @@
 #  For more details, please refer to https://aka.ms/azureml-module-specs
 amlModuleIdentifier:
   moduleName: FastText Score
-  moduleVersion: 0.0.22
+  moduleVersion: 0.0.23
 description: Predict the categories of the input sentences
 implementation:
   parallel:
@@ -11,6 +11,8 @@ implementation:
         condaDependenciesFile: fasttext_score/conda.yaml
     args:
     - [--fasttext_model_dir, inputPath: Fasttext model dir]
+    - [--max_len, inputValue: Max len]
+    - [--ngram_size, inputValue: Ngram size]
     - --scored_data_output_dir
     - outputPath: Scored data output dir
     entry: fasttext_score/fasttext_score.py
@@ -25,6 +27,16 @@ inputs:
 - name: Fasttext model dir
   type: AnyDirectory
   argumentName: fasttext_model_dir
+  optional: true
+- name: Max len
+  type: Integer
+  argumentName: max_len
+  default: 32
+  optional: true
+- name: Ngram size
+  type: Integer
+  argumentName: ngram_size
+  default: 200000
   optional: true
 jobType: parallel
 metadata:

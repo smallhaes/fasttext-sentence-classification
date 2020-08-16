@@ -34,10 +34,13 @@ class TestFasttextTrain(unittest.TestCase):
 
     def prepare_parameters(self) -> dict:
         # Change to your own parameters
-        return {'epochs': 1,
-                'batch_size': 128,
-                'learning_rate': 0.0005,
-                'embedding_dim': 128
+        return {'epochs': 3,
+                'batch_size': 64,
+                'max_len': 32,
+                'embed_dim': 300,
+                'hidden_size': 256,
+                'ngram_size': 200000,
+                'learning_rate': 0.001
                 }
 
     def prepare_arguments(self) -> dict:
@@ -63,6 +66,6 @@ class TestFasttextTrain(unittest.TestCase):
             os.makedirs(path, exist_ok=True)
         # This test calls fasttext_train from parameters directly.
         fasttext_train(**self.prepare_arguments())
-        # check the existence of BestModel
+        # Check the existence of BestModel
         path_model = os.path.join(self.prepare_outputs()['trained_model_dir'], 'BestModel')
         self.assertTrue(os.path.exists(path_model))

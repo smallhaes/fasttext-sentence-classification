@@ -2,9 +2,6 @@ modules:
 -   entry: split_data_txt.py
     sourceDirectory: split_data_txt
 
--   entry: compare_two_models.py
-    sourceDirectory: compare_two_models
-
 -   entry: fasttext_train/fasttext_train.py
     sourceDirectory: .
 
@@ -14,3 +11,5 @@ modules:
 -   entry: fasttext_score/fasttext_score.py
     sourceDirectory: .
 
+-   entry: compare_two_models.py
+    sourceDirectory: compare_two_models

@@ -10,9 +10,9 @@ from azureml.pipeline.wrapper.dsl.module import ModuleExecutor, OutputDirectory,
 
 @dsl.module(
     name="Split Data Txt",
-    version='0.0.42',
-    description='Processing objects: text format data set, each line of the text file is a piece of data, \
-    this module divides the data set into training set, verification set and test set.'
+    version='0.0.43',
+    description='Processing objects: text format dataset. Each line of the text file is a piece of data. \
+    This module divides the dataset into training dataset, validation dataset and test dataset.'
 )
 def split_data_txt(
         training_data_output: OutputDirectory(),
@@ -24,7 +24,7 @@ def split_data_txt(
         random_split=False,
         seed=0
 ):
-    # hardcode: data.txt
+    # hardcode: data.txt, label.txt, and word_to_index.json
     print('============================================')
     print(f"value of input_dir:'{input_dir}', type of input_dir:'{type(input_dir)}'")
     path_input_data = os.path.join(input_dir, 'data.txt')
@@ -52,7 +52,6 @@ def split_data_txt(
     path_label = os.path.join(input_dir, 'label.txt')
     path_word_to_index = os.path.join(input_dir, 'word_to_index.json')
 
-    # os.makedirs(training_data_output, exist_ok=True)
     shutil.copy(src=path_label, dst=training_data_output)
     shutil.copy(src=path_word_to_index, dst=training_data_output)
     path = os.path.join(training_data_output, "data.txt")
@@ -61,14 +60,12 @@ def split_data_txt(
 
     shutil.copy(src=path_label, dst=validation_data_output)
     shutil.copy(src=path_word_to_index, dst=validation_data_output)
-    # os.makedirs(validation_data_output, exist_ok=True)
     path = os.path.join(validation_data_output, "data.txt")
     with open(path, 'w', encoding='utf-8') as f:
         f.writelines(dev)
 
     shutil.copy(src=path_label, dst=test_data_output)
     shutil.copy(src=path_word_to_index, dst=test_data_output)
-    # os.makedirs(test_data_output, exist_ok=True)
     path = os.path.join(test_data_output, "data.txt")
     with open(path, 'w', encoding='utf-8') as f:
         f.writelines(test)

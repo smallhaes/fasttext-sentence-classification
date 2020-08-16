@@ -1,7 +1,7 @@
 import os
-import sys
 import json
 import torch
+import random
 import numpy as np
 from tqdm import tqdm
 from sklearn import metrics
@@ -9,20 +9,14 @@ from azureml.pipeline.wrapper.dsl.module import OutputDirectory
 from azureml.core import Run
 
 torch.manual_seed(1)
-torch.cuda.manual_seed_all(1)
 np.random.seed(1)
 
 
-def train(model,
-          trained_model_dir: OutputDirectory(type='AnyDirectory'),
-          train_iter,
-          dev_iter=None,
-          epochs=20,
-          learning_rate=0.0001,
-          stop_patience=3,
-          device=None):
+def train(model, trained_model_dir: OutputDirectory(type='AnyDirectory'), train_iter, dev_iter=None,
+          epochs=20, learning_rate=0.0001, stop_patience=3, device=None):
     if device is None:
         device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
+        print('device:', device)
 
     model.train()
     optimizer = torch.optim.Adam(model.parameters(), lr=learning_rate)
@@ -33,36 +27,28 @@ def train(model,
     stop_flag = False
 
     model_name = model._get_name()
-    tip_str = f"\n{model_name} start training....."
-    print(tip_str)
-    # for logging
+    # for metrics
     run = Run.get_context()
     for epoch in range(epochs):
         loss_value_list = []
         total_iter = len(train_iter)
-        for i, (x_batch, y_batch) in enumerate(train_iter):
-            x_batch = torch.LongTensor(x_batch).to(device)
-            y_batch = torch.LongTensor(y_batch).to(device)
-
-            outputs = model(x_batch)
+        for i, (btach_x, btach_y) in enumerate(train_iter):
+            outputs = model(btach_x)
             optimizer.zero_grad()
-            loss_value = loss(outputs, y_batch)
+            loss_value = loss(outputs, btach_y)
             loss_value.backward()
             optimizer.step()
+            loss_value_list.append(loss_value.cpu().data.numpy())
             # for metrics
             run.log(name='CrossEntropyLoss', value=np.mean(loss_value_list))
-            loss_value_list.append(loss_value.cpu().data.numpy())
-            str_ = f"{model_name} epoch:{epoch + 1}/{epochs} step:{i + 1}/{total_iter} mean_loss:{np.mean(loss_value_list): .4f}"
-            sys.stdout.write('\r' + str_)
-            sys.stdout.flush()
+            if i % 50 == 0:
+                str_ = f"{model_name} epoch:{epoch + 1}/{epochs} step:{i + 1}/{total_iter} mean_loss:{np.mean(loss_value_list): .4f}"
+                print(str_)
 
             if (i + 1) == total_iter and dev_iter is not None:
-                loss_, acc_, prec_, recall_, f1_ = eval(model, dev_iter, device)
+                loss_, acc_, prec_, recall_, f1_ = evaluation(model, dev_iter)
                 str_ = f" validation loss:{loss_:.4f}  acc:{acc_:.4f}"
-                sys.stdout.write(str_)
-                sys.stdout.flush()
-                print()
-
+                print(str_)
                 model.train()
 
                 if (min_loss_epoch[0] is None) or (min_loss_epoch[0] > loss_):
@@ -79,9 +65,9 @@ def train(model,
             break
 
 
-def test(model, test_iter=None, device=None):
+def test(model, test_iter=None):
     run = Run.get_context()
-    loss_, acc_, prec_, recall_, f1_ = eval(model, test_iter, device)
+    loss_, acc_, prec_, recall_, f1_ = evaluation(model, test_iter)
     # for metrics
     run.log(name='CrossEntropyLoss', value=loss_)
     run.log(name='Accuracy', value=acc_)
@@ -89,12 +75,11 @@ def test(model, test_iter=None, device=None):
     run.log(name='Recall', value=recall_)
     run.log(name='F1', value=f1_)
     str_ = f"test acc:{acc_:.4f}"
-    sys.stdout.write(str_)
-    sys.stdout.flush()
+    print(str_)
     return acc_
 
 
-def eval(model, data_iter, device):
+def evaluation(model, data_iter):
     model.eval()
     with torch.no_grad():
         acc_list = []
@@ -102,54 +87,53 @@ def eval(model, data_iter, device):
         recall_list = []
         f1_list = []
         loss_list = []
-
-        for x, y in data_iter:
-            dev_x_ = torch.LongTensor(x).to(device)
-            dev_y_ = torch.LongTensor(y).to(device)
-            outputs = model(dev_x_)
+        loss = torch.nn.CrossEntropyLoss()
+        for btach_x, btach_y in data_iter:
+            outputs = model(btach_x)
             p_ = torch.max(outputs.data, 1)[1].cpu().numpy()
+            y = btach_y.cpu()
             acc_ = metrics.accuracy_score(y, p_)
-            precision_ = metrics.precision_score(y, p_, average='micro')
-            recall_ = metrics.recall_score(y, p_, average='micro')
-            f1_ = metrics.f1_score(y, p_, average='micro')
-            loss_ = torch.nn.CrossEntropyLoss()(outputs, dev_y_)
+            precision_ = metrics.precision_score(y, p_, average='macro')
+            recall_ = metrics.recall_score(y, p_, average='macro')
+            f1_ = metrics.f1_score(y, p_, average='macro')
+            loss_ = loss(outputs, btach_y)
             acc_list.append(acc_)
             precision_list.append(precision_)
             recall_list.append(recall_)
             f1_list.append(f1_)
             loss_list.append(loss_.cpu().data.numpy())
+
         return np.mean(loss_list), np.mean(acc_list), np.mean(precision_list), np.mean(recall_list), np.mean(f1_list)
 
 
-def predict(model, data_iter, device, map_id_label):
+def predict(model, data_iter, map_id_label):
     model.eval()
     # for metrics
     run = Run.get_context()
     p_ = 0
-    for x, y in data_iter:
-        dev_x_ = torch.LongTensor(x).to(device)
-        outputs = model(dev_x_)
+    for batch_x, batch_y in data_iter:
+        outputs = model(batch_x)
         p_ = torch.max(outputs.data, 0)[1].cpu()
         run.log(name='Prediction Result', value=map_id_label[int(p_)])
     return map_id_label[int(p_)]
 
 
-def predict_parallel(model, data_iter, device, map_id_label):
+def predict_parallel(model, data_iter, map_id_label):
     model.eval()
     # for metrics
     # run = Run.get_context()
     results = []
-    for x, y in data_iter:
-        dev_x_ = torch.LongTensor(x).to(device)
-        outputs = model(dev_x_)
+    for batch_x, batch_y in data_iter:
+        outputs = model(batch_x)
         p_ = torch.max(outputs.data, 1)[1].cpu().numpy()
-        results = [map_id_label[p] for p in p_]
-        # run.log(name='Prediction Result', value=results)
+        results.append(map_id_label[int(p_)])
+    # run.log(name='Prediction Result', value=results)
     return results
 
 
 def get_vocab(path_word_to_index):
-    w2i = json.load(open(path_word_to_index, 'r', encoding='utf-8'))
+    with open(path_word_to_index, 'r', encoding='utf-8') as f:
+        w2i = json.load(f)
     return w2i
 
 
@@ -164,134 +148,107 @@ def get_id_label(path_label):
     return map_id_label, map_label_id
 
 
-def shuffle_samples(samples):
-    samples = np.array(samples)
-    shffle_index = np.arange(len(samples))
-    np.random.shuffle(shffle_index)
-    samples = samples[shffle_index]
-    return samples
+def get_bigram_hash(text, index, ngram_size):
+    word1 = text[index - 1] if index - 1 >= 0 else 0
+    return (word1 * 10600202) % ngram_size
 
 
-def load_dataset(file_path='', max_len=38, word_to_index=None, map_label_id=None):
+def get_trigram_hash(sequence, index, ngram_size):
+    word1 = sequence[index - 1] if index - 1 >= 0 else 0
+    word2 = sequence[index - 2] if index - 2 >= 0 else 0
+    return (word2 * 10600202 * 13800202 + word1 * 10600202) % ngram_size
+
+
+def load_dataset(file_path, word_to_index, map_label_id, max_len=32, ngram_size=200000):
+    # [PAD]:0    [UNK]:1
     pad_id = word_to_index.get('[PAD]', 0)
     samples = []
-    with open(file_path, 'r', encoding='utf-8') as f:
-        texts = f.read().split("\n")
-        texts = [item.strip() for item in texts if len(item) > 0]
-    for line in tqdm(texts, desc="word to index"):
-        line_s = line.split('\t')
-        if len(line_s) < 2:
-            continue
-        context, label = line_s[0], line_s[1]
-        line_data = ([word_to_index.get(c, 1) for c in context]) + [pad_id] * (max_len - len(context))
-        line_data = line_data[:max_len]
-        samples.append((line_data, map_label_id[label]))
-    samples = np.array(samples)
+    # load dataset for batch inference
+    if isinstance(file_path, list):
+        lines = []
+        for file in file_path:
+            with open(file, 'r', encoding='utf-8') as f:
+                # 0 is the dummy label and doesn't work
+                text = f.read().strip()
+                if len(text) > 0:
+                    lines.append(text + '\t' + '0')
+    # load dataset for pipeline
+    else:
+        with open(file_path, 'r', encoding='utf-8') as f:
+            lines = f.read().split("\n")
+            lines = [line.strip() for line in lines if len(line) > 0]
+    for line in tqdm(lines, desc="load data"):
+        line = line.split('\t')
+        text = line[0].split(' ')
+        label = line[1]
+        # [UNK]:1
+        text = ([word_to_index.get(word, 1) for word in text]) + [pad_id] * (max_len - len(text))
+        text = text[:max_len]
+        samples.append(process_data(text, label, max_len, ngram_size, map_label_id))
     return samples
 
 
-def load_dataset_for_deployment(input_sentence='', max_len=38, word_to_index=None):
+def load_dataset_for_realtime_inference(input_sentence, word_to_index, map_label_id, max_len=32, ngram_size=200000):
+    # 这里应该用jieba.cut()   这样就能同时处理中文和英文了
+    import jieba
+    input_sentence = jieba.lcut(input_sentence)
+    input_sentence = list(filter(lambda x: x != ' ', input_sentence))
     pad_id = word_to_index.get('[PAD]', 0)
-    input_sentence = input_sentence.split(' ')
-    line_data = ([word_to_index.get(c, 1) for c in input_sentence]) + [pad_id] * (max_len - len(input_sentence))
-    line_data = line_data[:max_len]
-    samples = [(line_data, 0)]
-    samples = np.array(samples)
+    text = ([word_to_index.get(word, 1) for word in input_sentence]) + [pad_id] * (max_len - len(input_sentence))
+    text = text[:max_len]
+    # 0 is the dummy label and doesn't work
+    samples = [(process_data(text, '0', max_len, ngram_size, map_label_id))]
     return samples
 
 
-def load_dataset_parallel(files=None, max_len=38, word_to_index=None):
-    pad_id = word_to_index.get('[PAD]', 0)
-    samples = []
-    texts = []
-    for file in files:
-        with open(file, 'r', encoding='utf-8') as f:
-            texts.append(f.read().strip())
-
-    texts = [item.strip() for item in texts if len(item) > 0]
-    for text in tqdm(texts, desc="word to index"):
-        text = text.split(' ')
-        line_data = ([word_to_index.get(word, 1) for word in text]) + [pad_id] * (max_len - len(text))
-        line_data = line_data[:max_len]
-        # zero is a placeholder
-        samples.append((line_data, 0))
-
-    samples = np.array(samples)
-
-    return samples
+def process_data(text: list, label: str, max_len=32, ngram_size=200000, map_label_id=None):
+    bigram = []
+    trigram = []
+    id_ = None
+    for i in range(max_len):
+        bigram.append(get_bigram_hash(text, i, ngram_size))
+        trigram.append(get_trigram_hash(text, i, ngram_size))
+        # label not in map_label_id when inference
+        id_ = map_label_id[label] if label in map_label_id else 0
+    return (text, bigram, trigram, id_)
 
 
 class DataIter(object):
-    def __init__(self, samples, batch_size=32, shuffle=True):
+    def __init__(self, samples, batch_size=32, shuffle=True, device=None):
         if shuffle:
-            samples = shuffle_samples(samples)
+            random.shuffle(samples)
         self.samples = samples
         self.batch_size = batch_size
-        self.n_batches = len(samples) // self.batch_size
-        self.residue = (len(samples) % self.n_batches != 0)
+        self.batch_num = len(samples) // self.batch_size
+        self.residue = len(samples) % self.batch_num != 0
         self.index = 0
+        self.device = device
 
-    def split_samples(self, sub_samples):
-        b_x = [item[0] for item in sub_samples]
-        b_y = [item[1] for item in sub_samples]
-        return np.array(b_x), np.array(b_y)
+    def _to_tensor(self, sub_samples: list):
+        x = torch.LongTensor([sample[0] for sample in sub_samples]).to(self.device)
+        bigram = torch.LongTensor([sample[1] for sample in sub_samples]).to(self.device)
+        trigram = torch.LongTensor([sample[2] for sample in sub_samples]).to(self.device)
+        y = torch.LongTensor([sample[3] for sample in sub_samples]).to(self.device)
+        return (x, bigram, trigram), y
 
     def __next__(self):
-        if (self.index == self.n_batches) and (self.residue is True):
+        if self.index == self.batch_num and self.residue:
             sub_samples = self.samples[self.index * self.batch_size: len(self.samples)]
             self.index += 1
-            return self.split_samples(sub_samples)
-        elif self.index >= self.n_batches:
+            return self._to_tensor(sub_samples)
+        elif self.index >= self.batch_num:
             self.index = 0
             raise StopIteration
         else:
             sub_samples = self.samples[self.index * self.batch_size: (self.index + 1) * self.batch_size]
             self.index += 1
-            return self.split_samples(sub_samples)
+            return self._to_tensor(sub_samples)
 
     def __iter__(self):
         return self
 
     def __len__(self):
         if self.residue:
-            return self.n_batches + 1
+            return self.batch_num + 1
         else:
-            return self.n_batches
-
-
-class DataIter_Parallel(object):
-    def __init__(self, samples, shuffle=True):
-        if shuffle:
-            samples = shuffle_samples(samples)
-        self.samples = samples
-        self.batch_size = len(samples)
-        self.n_batches = len(samples) // self.batch_size
-        self.residue = (len(samples) % self.n_batches != 0)
-        self.index = 0
-
-    def split_samples(self, sub_samples):
-        b_x = [item[0] for item in sub_samples]
-        b_y = [item[1] for item in sub_samples]
-        return np.array(b_x), np.array(b_y)
-
-    def __next__(self):
-        if (self.index == self.n_batches) and (self.residue is True):
-            sub_samples = self.samples[self.index * self.batch_size: len(self.samples)]
-            self.index += 1
-            return self.split_samples(sub_samples)
-        elif self.index >= self.n_batches:
-            self.index = 0
-            raise StopIteration
-        else:
-            sub_samples = self.samples[self.index * self.batch_size: (self.index + 1) * self.batch_size]
-            self.index += 1
-            return self.split_samples(sub_samples)
-
-    def __iter__(self):
-        return self
-
-    def __len__(self):
-        if self.residue:
-            return self.n_batches + 1
-        else:
-            return self.n_batches
+            return self.batch_num

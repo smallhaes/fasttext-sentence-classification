@@ -12,13 +12,15 @@ from common.utils import load_dataset, DataIter, test, get_vocab, get_id_label
 
 @dsl.module(
     name="FastText Evaluation",
-    version='0.0.7',
-    description='Evaluate the trained FastText model'
+    version='0.0.8',
+    description='Evaluate the trained fastText model'
 )
 def fasttext_evaluation(
         model_testing_result: OutputDirectory(),
         trained_model_dir: InputDirectory() = None,
-        test_data_dir: InputDirectory() = None
+        test_data_dir: InputDirectory() = None,
+        max_len=32,
+        ngram_size=200000
 ):
     # hardcode: word_to_index.json, data.txt, BestModel, and result.json
     print('=====================================================')
@@ -29,17 +31,17 @@ def fasttext_evaluation(
     path_label = os.path.join(test_data_dir, 'label.txt')
     map_id_label, map_label_id = get_id_label(path_label)
     device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
-    max_len_ = 32
+    print('device:', device)
     path = os.path.join(test_data_dir, 'data.txt')
-    test_samples = load_dataset(file_path=path, max_len=max_len_, word_to_index=word_to_index,
-                                map_label_id=map_label_id)
-    test_iter = DataIter(test_samples)
+    test_samples = load_dataset(file_path=path, max_len=max_len, ngram_size=ngram_size,
+                                word_to_index=word_to_index, map_label_id=map_label_id)
+    test_iter = DataIter(samples=test_samples, shuffle=False, device=device)
     path = os.path.join(trained_model_dir, 'BestModel')
     model = torch.load(f=path)
-    # os.makedirs(model_testing_result, exist_ok=True)
     path = os.path.join(model_testing_result, 'result.json')
-    acc_ = test(model, test_iter, device)
-    json.dump({"acc": acc_}, open(path, 'w'))
+    acc_ = test(model, test_iter)
+    with open(path, 'w', encoding='utf-8') as f:
+        json.dump({"acc": acc_}, f)
     print('\n============================================')
 
 

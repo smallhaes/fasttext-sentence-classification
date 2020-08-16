@@ -30,9 +30,11 @@ def compare_two_models(
     # for metrics
     run = Run.get_context()
     path = os.path.join(first_trained_result, 'result.json')
-    result_first = json.load(open(path, 'r'))['acc']
+    with open(path, 'r', encoding='utf-8') as f:
+        result_first = json.load(f)['acc']
     path = os.path.join(second_trained_result, 'result.json')
-    second_first = json.load(open(path, 'r'))['acc']
+    with open(path, 'r', encoding='utf-8') as f:
+        second_first = json.load(f)['acc']
     dst = the_better_model
     if result_first >= second_first:
         print('choose the first model')

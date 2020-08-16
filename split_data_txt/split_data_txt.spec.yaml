@@ -2,10 +2,10 @@
 #  For more details, please refer to https://aka.ms/azureml-module-specs
 amlModuleIdentifier:
   moduleName: Split Data Txt
-  moduleVersion: 0.0.42
-description: 'Processing objects: text format data set, each line of the text file
-  is a piece of data,     this module divides the data set into training set, verification
-  set and test set.'
+  moduleVersion: 0.0.43
+description: 'Processing objects: text format dataset. Each line of the text file
+  is a piece of data.     This module divides the dataset into training dataset, validation
+  dataset and test dataset.'
 implementation:
   container:
     amlEnvironment:
