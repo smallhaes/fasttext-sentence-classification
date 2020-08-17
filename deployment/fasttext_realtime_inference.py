@@ -21,7 +21,7 @@ def init():
     map_id_label, map_label_id = get_id_label(path_label)
     model_name = 'BestModel'
     model_path = os.path.join(model_dir, model_name)
-    model = torch.load(f=model_path)
+    model = torch.load(f=model_path, map_location=torch.device('cpu'))
 
 
 standard_sample_input = {'input_sentence': 'i want to travel around the world'}
