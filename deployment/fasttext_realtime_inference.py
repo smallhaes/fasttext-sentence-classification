@@ -33,7 +33,7 @@ standard_sample_output = {'category': 'dream'}
 def run(param):
     with torch.no_grad():
         max_len = param['max_len'] if 'max_len' in param else 32
-        ngram_size = param['input_sentence'] if 'input_sentence' in param else 200000
+        ngram_size = param['ngram_size'] if 'ngram_size' in param else 200000
         test_samples = load_dataset_for_realtime_inference(input_sentence=param['input_sentence'],
                                                            word_to_index=word_to_index, map_label_id=map_label_id,
                                                            max_len=max_len, ngram_size=ngram_size)

@@ -40,7 +40,7 @@ def train(model, trained_model_dir: OutputDirectory(type='AnyDirectory'), train_
             optimizer.step()
             loss_value_list.append(loss_value.cpu().data.numpy())
             # for metrics
-            run.log(name='CrossEntropyLoss', value=np.mean(loss_value_list))
+            # run.log(name='CrossEntropyLoss', value=np.mean(loss_value_list))
             if i % 50 == 0:
                 str_ = f"{model_name} epoch:{epoch + 1}/{epochs} step:{i + 1}/{total_iter} mean_loss:{np.mean(loss_value_list): .4f}"
                 print(str_)
@@ -113,7 +113,7 @@ def predict(model, data_iter, map_id_label):
     p_ = 0
     for batch_x, batch_y in data_iter:
         outputs = model(batch_x)
-        p_ = torch.max(outputs.data, 0)[1].cpu()
+        p_ = torch.max(outputs.data, 1)[1].cpu()
         run.log(name='Prediction Result', value=map_id_label[int(p_)])
     return map_id_label[int(p_)]
 
