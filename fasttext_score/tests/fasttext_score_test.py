@@ -33,7 +33,7 @@ class TestFasttextScore(unittest.TestCase):
 
     def prepare_parameters(self) -> dict:
         # Change to your own parameters
-        return {'max_len': 32,
+        return {'max_len': 233,
                 'ngram_size': 300000
                 }
 
@@ -62,6 +62,7 @@ class TestFasttextScore(unittest.TestCase):
         # This test simulates a parallel run from cmd line arguments to call fasttext_score_parallel.
         ModuleExecutor(fasttext_score).execute(self.prepare_argv())
         data_dir = self.prepare_inputs()['texts_to_score']
+        os.makedirs(data_dir, exist_ok=True)
         num_of_test_file = len(os.listdir(data_dir))
         num_of_test_result = 0
         for file in os.listdir(result_dir):
