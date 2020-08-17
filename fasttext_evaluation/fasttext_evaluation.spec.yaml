@@ -14,8 +14,6 @@ implementation:
     args:
     - [--trained_model_dir, inputPath: Trained model dir]
     - [--test_data_dir, inputPath: Test data dir]
-    - [--max_len, inputValue: Max len]
-    - [--ngram_size, inputValue: Ngram size]
     - --model_testing_result
     - outputPath: Model testing result
     command:
@@ -30,16 +28,6 @@ inputs:
 - name: Test data dir
   type: AnyDirectory
   argumentName: test_data_dir
-  optional: true
-- name: Max len
-  type: Integer
-  argumentName: max_len
-  default: 32
-  optional: true
-- name: Ngram size
-  type: Integer
-  argumentName: ngram_size
-  default: 200000
   optional: true
 metadata:
   annotations:
