@@ -7,6 +7,8 @@ description: Train the fastText model.
 implementation:
   container:
     amlEnvironment:
+      docker:
+        baseImage: mcr.microsoft.com/azureml/intelmpi2018.3-cuda10.0-cudnn7-ubuntu16.04
       python:
         condaDependenciesFile: fasttext_train/conda.yaml
     args:

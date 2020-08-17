@@ -1,4 +1,7 @@
 # If you want to create your own image. Modify the Dockerfile. Then run this shell script: bash build_image.sh
+# We highly recommend to use image instead of Dockerfile in 'devcontainer.json'
+# Because pulling an image is much faster than building an image
+
 # input the username of your docker hub
 echo -e '\nPlease input the username of your docker hub'
 echo -e 'Username: \c'

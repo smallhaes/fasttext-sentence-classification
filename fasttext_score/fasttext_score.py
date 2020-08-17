@@ -16,7 +16,8 @@ from common.utils import DataIter, load_dataset, predict_parallel, get_vocab, ge
     version='0.0.23',
     description='Predict the categories of the input sentences',
     job_type='parallel',
-    parallel_inputs=[InputDirectory(name='Texts to score')]
+    parallel_inputs=[InputDirectory(name='Texts to score')],
+    base_image='mcr.microsoft.com/azureml/intelmpi2018.3-cuda10.0-cudnn7-ubuntu16.04'
 )
 def fasttext_score(
         scored_data_output_dir: OutputDirectory(),

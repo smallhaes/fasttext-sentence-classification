@@ -13,7 +13,8 @@ from common.utils import load_dataset, DataIter, test, get_vocab, get_id_label
 @dsl.module(
     name="FastText Evaluation",
     version='0.0.8',
-    description='Evaluate the trained fastText model'
+    description='Evaluate the trained fastText model',
+    base_image='mcr.microsoft.com/azureml/intelmpi2018.3-cuda10.0-cudnn7-ubuntu16.04'
 )
 def fasttext_evaluation(
         model_testing_result: OutputDirectory(),

@@ -7,6 +7,8 @@ description: Evaluate the trained fastText model
 implementation:
   container:
     amlEnvironment:
+      docker:
+        baseImage: mcr.microsoft.com/azureml/intelmpi2018.3-cuda10.0-cudnn7-ubuntu16.04
       python:
         condaDependenciesFile: fasttext_evaluation/conda.yaml
     args:
