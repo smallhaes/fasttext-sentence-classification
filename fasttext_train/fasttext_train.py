@@ -14,7 +14,8 @@ from common.utils import get_vocab, get_id_label, load_dataset, DataIter, train
 @dsl.module(
     name="FastText Train",
     version='0.0.41',
-    description='Train the fastText model.'
+    description='Train the fastText model.',
+    base_image='mcr.microsoft.com/azureml/intelmpi2018.3-cuda10.0-cudnn7-ubuntu16.04'
 )
 def fasttext_train(
         trained_model_dir: OutputDirectory(type='ModelDirectory'),
