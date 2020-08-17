@@ -34,8 +34,8 @@ class TestFasttextEvaluation(unittest.TestCase):
 
     def prepare_parameters(self) -> dict:
         # Change to your own parameters
-        return {'max_len': 32,
-                'ngram_size': 200000
+        return {'max_len': 233,
+                'ngram_size': 300000
                 }
 
     def prepare_arguments(self) -> dict:
