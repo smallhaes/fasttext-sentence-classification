@@ -52,7 +52,7 @@ RUN wget --quiet $CONDA_URL -O ~/miniconda.sh && \
     SDK_SOURCE=https://azuremlsdktestpypi.azureedge.net/$SDK_INDEX/$SDK_VERSION_SHORT && \
     SDK_VERSION_LONG=0.1.0.$SDK_VERSION_SHORT && \
     AZ_EXTENSION_SOURCE=https://azuremlsdktestpypi.azureedge.net/$SDK_INDEX/$SDK_VERSION_SHORT/azure_cli_ml-0.1.0.$SDK_VERSION_SHORT-py3-none-any.whl && \
-    $CONDA_DIR/envs/$CONDA_ENV_NAME/bin/pip install azure-cli azureml-pipeline-wrapper[notebooks]==$SDK_VERSION_LONG --extra-index-url=$SDK_SOURCE && \
+    $CONDA_DIR/envs/$CONDA_ENV_NAME/bin/pip install azure-cli azureml-pipeline-wrapper[notebooks]==$SDK_VERSION_LONG azureml-dataset-runtime[fuse]==$SDK_VERSION_LONG --extra-index-url=$SDK_SOURCE && \
     az extension add --source $AZ_EXTENSION_SOURCE --pip-extra-index-urls $SDK_SOURCE --yes
 
 # change the user
