@@ -41,7 +41,7 @@ def train(model, trained_model_dir: OutputDirectory(type='AnyDirectory'), train_
             optimizer.step()
             loss_value_list.append(loss_value.cpu().data.numpy())
             # for metrics
-            # run.log(name='CrossEntropyLoss', value=np.mean(loss_value_list))
+            run.log(name='CrossEntropyLoss', value=np.mean(loss_value_list))
             if i % 50 == 0:
                 str_ = f"{model_name} epoch:{epoch + 1}/{epochs} step:{i + 1}/{total_iter} mean_loss:{np.mean(loss_value_list): .4f}"
                 print(str_)
