@@ -19,11 +19,8 @@ from common.utils import load_dataset, DataIter, test, get_vocab, get_id_label
 def fasttext_evaluation(
         model_testing_result: OutputDirectory(),
         trained_model_dir: InputDirectory() = None,
-        test_data_dir: InputDirectory() = None,
-        max_len=32,
-        ngram_size=200000
+        test_data_dir: InputDirectory() = None
 ):
-    # hardcode: word_to_index.json, data.txt, BestModel, and result.json
     print('=====================================================')
     print(f'trained_model_dir: {Path(trained_model_dir).resolve()}')
     print(f'test_data_dir: {Path(test_data_dir).resolve()}')
@@ -33,12 +30,16 @@ def fasttext_evaluation(
     map_id_label, map_label_id = get_id_label(path_label)
     device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
     print('device:', device)
+    path = os.path.join(trained_model_dir, 'shared_params.json')
+    with open(path, 'r', encoding='utf-8') as f:
+        shared_params = json.load(f)
     path = os.path.join(test_data_dir, 'data.txt')
-    test_samples = load_dataset(file_path=path, max_len=max_len, ngram_size=ngram_size,
-                                word_to_index=word_to_index, map_label_id=map_label_id)
+    test_samples = load_dataset(file_path=path, max_len=shared_params['max_len'],
+                                ngram_size=shared_params['ngram_size'], word_to_index=word_to_index,
+                                map_label_id=map_label_id)
     test_iter = DataIter(samples=test_samples, shuffle=False, device=device)
     path = os.path.join(trained_model_dir, 'BestModel')
-    model = torch.load(f=path)
+    model = torch.load(f=path, map_location=device)
     path = os.path.join(model_testing_result, 'result.json')
     acc_ = test(model, test_iter)
     with open(path, 'w', encoding='utf-8') as f:

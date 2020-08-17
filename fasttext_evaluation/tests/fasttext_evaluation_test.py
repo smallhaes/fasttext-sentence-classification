@@ -32,18 +32,11 @@ class TestFasttextEvaluation(unittest.TestCase):
         return {'model_testing_result': str(self.base_path / 'fasttext_evaluation' / 'data'
                                             / 'fasttext_evaluation' / 'outputs' / 'model_testing_result')}
 
-    def prepare_parameters(self) -> dict:
-        # Change to your own parameters
-        return {'max_len': 233,
-                'ngram_size': 300000
-                }
-
     def prepare_arguments(self) -> dict:
         # If your input's type is not Path, change this function to your own type.
         result = {}
         result.update(self.prepare_inputs())
         result.update(self.prepare_outputs())
-        result.update(self.prepare_parameters())
         return result
 
     def test_module_from_func(self):
@@ -51,7 +44,6 @@ class TestFasttextEvaluation(unittest.TestCase):
         local_module = Module.from_func(self.workspace, fasttext_evaluation)
         module = local_module()
         module.set_inputs(**self.prepare_inputs())
-        module.set_parameters(**self.prepare_parameters())
         status = module.run(use_docker=True)
         self.assertEqual(status, 'Completed', 'Module run failed.')
 

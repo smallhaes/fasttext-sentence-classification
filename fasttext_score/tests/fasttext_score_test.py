@@ -31,23 +31,16 @@ class TestFasttextScore(unittest.TestCase):
             'scored_data_output_dir': str(self.base_path / 'fasttext_score' / 'data'
                                           / 'fasttext_score' / 'outputs' / 'scored_data_output_dir')}
 
-    def prepare_parameters(self) -> dict:
-        # Change to your own parameters
-        return {'max_len': 233,
-                'ngram_size': 300000
-                }
-
     def prepare_arguments(self) -> dict:
         # If your input's type is not Path, change this function to your own type.
         result = {}
         result.update(self.prepare_inputs())
         result.update(self.prepare_outputs())
-        result.update(self.prepare_parameters())
         return result
 
     def prepare_argv(self):
         argv = []
-        for k, v in {**self.prepare_inputs(), **self.prepare_parameters(), **self.prepare_outputs()}.items():
+        for k, v in {**self.prepare_inputs(), **self.prepare_outputs()}.items():
             argv += ['--' + k, str(v)]
         return argv
 

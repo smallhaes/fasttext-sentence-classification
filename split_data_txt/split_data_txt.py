@@ -24,7 +24,6 @@ def split_data_txt(
         random_split=False,
         seed=0
 ):
-    # hardcode: data.txt, label.txt, and word_to_index.json
     print('============================================')
     print(f"value of input_dir:'{input_dir}', type of input_dir:'{type(input_dir)}'")
     path_input_data = os.path.join(input_dir, 'data.txt')

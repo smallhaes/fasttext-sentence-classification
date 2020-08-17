@@ -21,7 +21,6 @@ def compare_two_models(
         second_trained_model: InputDirectory() = None,
         second_trained_result: InputDirectory() = None
 ):
-    # hardcode: result.json and BestModel
     print('=====================================================')
     print(f'input_dir: {Path(first_trained_model).resolve()}')
     print(f'input_dir: {Path(first_trained_result).resolve()}')

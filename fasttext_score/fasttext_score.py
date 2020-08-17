@@ -1,5 +1,6 @@
 import os
 import sys
+import json
 import pandas as pd
 from uuid import uuid4
 
@@ -21,11 +22,8 @@ from common.utils import DataIter, load_dataset, predict_parallel, get_vocab, ge
 )
 def fasttext_score(
         scored_data_output_dir: OutputDirectory(),
-        fasttext_model_dir: InputDirectory() = '.',
-        max_len=32,
-        ngram_size=200000
+        fasttext_model_dir: InputDirectory() = '.'
 ):
-    # hardcode: word_to_index.json, label.txt, and BestModel, *.parquet
     print('=====================================================')
     print(f'fasttext_model: {Path(fasttext_model_dir).resolve()}')
     print(f'scored_data_output_dir: {scored_data_output_dir}')
@@ -35,16 +33,20 @@ def fasttext_score(
     map_id_label, map_label_id = get_id_label(path_label)
     device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
     print('device:', device)
+    path = os.path.join(fasttext_model_dir, 'shared_params.json')
+    with open(path, 'r', encoding='utf-8') as f:
+        shared_params = json.load(f)
     path = os.path.join(fasttext_model_dir, 'BestModel')
-    model = torch.load(f=path)
+    model = torch.load(f=path, map_location=device)
 
     def run(files):
         if len(files) == 0:
             return []
         with torch.no_grad():
-            test_samples = load_dataset(file_path=files, max_len=max_len, ngram_size=ngram_size,
-                                        word_to_index=word_to_index, map_label_id=map_label_id)
-            test_iter = DataIter(samples=test_samples, batch_size=1, shuffle=True, device=device)
+            test_samples = load_dataset(file_path=files, max_len=shared_params['max_len'],
+                                        ngram_size=shared_params['ngram_size'], word_to_index=word_to_index,
+                                        map_label_id=map_label_id)
+            test_iter = DataIter(samples=test_samples, batch_size=1, shuffle=False, device=device)
             results = predict_parallel(model, test_iter, map_id_label)
             dict_ = {'Filename': files, 'Class': results}
             df = pd.DataFrame(data=dict_)
