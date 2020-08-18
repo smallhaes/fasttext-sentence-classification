@@ -7,7 +7,7 @@ from azureml.core import Workspace
 from azureml.pipeline.wrapper import Module
 
 # The following line adds source directory to path.
-sys.path.insert(0, str(Path(__file__).parent.parent))
+sys.path.insert(0, str(Path(__file__).parent.parent.parent))
 from fasttext_train import fasttext_train
 
 
@@ -15,7 +15,7 @@ class TestFasttextTrain(unittest.TestCase):
 
     @classmethod
     def setUpClass(cls) -> None:
-        cls.workspace = Workspace.from_config(str(Path(__file__).parent.parent / 'config.json'))
+        cls.workspace = Workspace.from_config(str(Path(__file__).parent.parent.parent / 'config.json'))
         cls.base_path = Path(__file__).parent.parent.parent
 
     def prepare_inputs(self) -> dict:
