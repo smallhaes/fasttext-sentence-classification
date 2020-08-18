@@ -10,7 +10,7 @@ implementation:
       docker:
         baseImage: mcr.microsoft.com/azureml/intelmpi2018.3-cuda10.0-cudnn7-ubuntu16.04
       python:
-        condaDependenciesFile: ../conda.yaml
+        condaDependenciesFile: conda.yaml
     args:
     - [--fasttext_model_dir, inputPath: Fasttext model dir]
     - --scored_data_output_dir

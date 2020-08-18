@@ -10,7 +10,7 @@ implementation:
       docker:
         baseImage: mcr.microsoft.com/azureml/intelmpi2018.3-cuda10.0-cudnn7-ubuntu16.04
       python:
-        condaDependenciesFile: ../conda.yaml
+        condaDependenciesFile: conda.yaml
     args:
     - [--training_data_dir, inputPath: Training data dir]
     - [--validation_data_dir, inputPath: Validation data dir]

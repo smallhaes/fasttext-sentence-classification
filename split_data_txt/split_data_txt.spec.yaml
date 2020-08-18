@@ -10,7 +10,7 @@ implementation:
   container:
     amlEnvironment:
       python:
-        condaDependenciesFile: ../conda.yaml
+        condaDependenciesFile: conda.yaml
     args:
     - [--input_dir, inputPath: Input dir]
     - [--training_data_ratio, inputValue: Training data ratio]

@@ -8,7 +8,7 @@ implementation:
   container:
     amlEnvironment:
       python:
-        condaDependenciesFile: ../conda.yaml
+        condaDependenciesFile: conda.yaml
     args:
     - [--first_trained_model, inputPath: First trained model]
     - [--first_trained_result, inputPath: First trained result]
