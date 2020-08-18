@@ -15,7 +15,7 @@ def init():
     # Model.register() will upload the parent directory, so we need to include this direcotry in the path of model_dir
     # The name of this parent directory is the output port name.
     model_dir = os.path.join(model_dir, os.listdir(model_dir)[0])
-    path = os.path.join(model_dir, 'shared_data.json')
+    path = os.path.join(model_dir, 'shared_params.json')
     with open(path, 'r', encoding='utf-8') as f:
         shared_params = json.load(f)
     path_word_to_index = os.path.join(model_dir, 'word_to_index.json')
