@@ -47,8 +47,10 @@ def compare_two_models(
         shutil.copy(src=src, dst=dst)
     path_word_to_index = os.path.join(first_trained_model, 'word_to_index.json')
     path_label = os.path.join(first_trained_model, 'label.txt')
+    path_shared_params = os.path.join(first_trained_model, 'shared_params.txt')
     shutil.copy(src=path_word_to_index, dst=dst)
     shutil.copy(src=path_label, dst=dst)
+    shutil.copy(src=path_shared_params, dst=dst)
     print('=====================================================')
 
 
