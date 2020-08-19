@@ -46,6 +46,7 @@ RUN wget --quiet $CONDA_URL -O ~/miniconda.sh && \
     rm -f ~/miniconda.sh && \
     conda init bash && \
     conda create -y -n $CONDA_ENV_NAME python=$PYTHON_VERSION && \
+    conda install -y -c pytorch -n $CONDA_ENV_NAME tqdm pyarrow scikit-learn==0.23.1 pytorch==1.4.0 torchvision==0.5.0 cudatoolkit=10.1 && \
     SDK_VERSION_SHORT=`curl -s $SDK_VERSION_URL` && \
     SDK_VERSION_SHORT=`echo $SDK_VERSION_SHORT | cut -c1-8` && \
     SDK_INDEX=CLI-SDK-Runners-Validation && \
