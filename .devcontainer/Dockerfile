@@ -22,7 +22,7 @@ ENV PATH $CONDA_DIR/bin:$CONDA_ENV_DIR/bin:$PATH
 # install common softwares
 RUN groupadd --gid 800 docker && \
     apt-get update --fix-missing && \
-    apt-get install -y apt-utils sudo apt-transport-https wget bzip2 ca-certificates curl gnupg-agent software-properties-common git vim htop tmux && \
+    apt-get install -y apt-utils sudo apt-transport-https wget bzip2 ca-certificates curl gnupg-agent software-properties-common git vim htop tmux zsh && \
     curl -fsSL https://download.docker.com/linux/debian/gpg | sudo apt-key add - && \
     add-apt-repository "deb [arch=amd64] https://download.docker.com/linux/debian $(lsb_release -cs) stable" && \
     apt-get update && \
