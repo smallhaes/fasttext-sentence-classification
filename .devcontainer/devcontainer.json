@@ -1,5 +1,5 @@
 {
-	"name": "AzuremlSDK-Python3-Miniconda",
+	"name": "AzuremlSDK-Python37",
 	// The image used when creating codespace. You could create an image with 'build_image.sh' conveniently
 	"image":"littlehaes/azureml-sdk",
 

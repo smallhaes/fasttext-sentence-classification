@@ -1,3 +1,4 @@
+#!/bin/bash
 # If you want to create your own image. Modify the Dockerfile. Then run this shell script: bash build_image.sh
 # We highly recommend to use image instead of Dockerfile in 'devcontainer.json'
 # Because pulling an image is much faster than building an image
@@ -25,6 +26,10 @@ if [[ $? != 0 ]]; then
         exit
 fi
 docker push ${TARGET_NAME}
-# update the latest version
+# Update the latest version
 docker tag ${TARGET_NAME} ${LATEST_NAME}
 docker push ${LATEST_NAME}
+# Update the image name in devcontainer.json
+quote='"'
+cmd="sed -i 's/^\t${quote}image${quote}:.*$/\t${quote}image${quote}:${quote}${USERNAME}\/${REPOSITORY_NAME}${quote},/' devcontainer.json"
+eval ${cmd}
