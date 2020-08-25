@@ -46,14 +46,13 @@ RUN wget --quiet $CONDA_URL -O ~/miniconda.sh && \
     rm -f ~/miniconda.sh && \
     conda init bash && \
     conda create -y -n $CONDA_ENV_NAME python=$PYTHON_VERSION && \
-    conda install -y -c pytorch -n $CONDA_ENV_NAME tqdm pyarrow scikit-learn==0.23.1 pytorch==1.4.0 torchvision==0.5.0 cudatoolkit=10.1 && \
     SDK_VERSION_SHORT=`curl -s $SDK_VERSION_URL` && \
     SDK_VERSION_SHORT=`echo $SDK_VERSION_SHORT | cut -c1-8` && \
     SDK_INDEX=CLI-SDK-Runners-Validation && \
     SDK_SOURCE=https://azuremlsdktestpypi.azureedge.net/$SDK_INDEX/$SDK_VERSION_SHORT && \
     SDK_VERSION_LONG=0.1.0.$SDK_VERSION_SHORT && \
     AZ_EXTENSION_SOURCE=https://azuremlsdktestpypi.azureedge.net/$SDK_INDEX/$SDK_VERSION_SHORT/azure_cli_ml-0.1.0.$SDK_VERSION_SHORT-py3-none-any.whl && \
-    $CONDA_DIR/envs/$CONDA_ENV_NAME/bin/pip install pandas azure-cli azureml-pipeline-wrapper[notebooks]==$SDK_VERSION_LONG azureml-dataset-runtime[fuse]==$SDK_VERSION_LONG --extra-index-url=$SDK_SOURCE --use-feature=2020-resolver && \
+    $CONDA_DIR/envs/$CONDA_ENV_NAME/bin/pip install azure-cli azureml-pipeline-wrapper[notebooks]==$SDK_VERSION_LONG azureml-dataset-runtime[fuse]==$SDK_VERSION_LONG --extra-index-url=$SDK_SOURCE --use-feature=2020-resolver && \
     az extension add --source $AZ_EXTENSION_SOURCE --pip-extra-index-urls $SDK_SOURCE --yes
 
 # change the user
