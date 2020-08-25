@@ -14,7 +14,7 @@ docker login -u ${USERNAME}
 SDK_VERSION_SHORT=`curl -s https://modulesdkpreview.blob.core.windows.net/sdk/preview/version.txt`
 SDK_VERSION_SHORT=${SDK_VERSION_SHORT:0:8}
 # The repository name displayed on docker hub
-REPOSITORY_NAME=azureml-sdk
+REPOSITORY_NAME=modulesdkpreview
 # The complete name of the image with a tag
 TARGET_NAME=${USERNAME}/${REPOSITORY_NAME}:$SDK_VERSION_SHORT
 LATEST_NAME=${USERNAME}/${REPOSITORY_NAME}:latest

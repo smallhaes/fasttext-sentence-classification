@@ -8,7 +8,7 @@ ARG USER_GID=$USER_UID
 # miniconda
 ARG CONDA_URL=https://repo.anaconda.com/miniconda/Miniconda3-py37_4.8.3-Linux-x86_64.sh
 ARG CONDA_DIR=/home/$USERNAME/.conda
-ARG CONDA_ENV_NAME=modulesdk
+ARG CONDA_ENV_NAME=modulesdkpreview
 ARG CONDA_ENV_DIR=$CONDA_DIR/envs/$CONDA_ENV_NAME
 ARG PYTHON_VERSION=3.7
 
