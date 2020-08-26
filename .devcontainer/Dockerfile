@@ -22,7 +22,7 @@ ENV PATH $CONDA_DIR/bin:$CONDA_ENV_DIR/bin:$PATH
 # install common softwares
 RUN groupadd --gid 800 docker && \
     apt-get update --fix-missing && \
-    apt-get install -y apt-utils sudo apt-transport-https wget bzip2 ca-certificates curl gnupg-agent software-properties-common git vim htop tmux zsh && \
+    apt-get install -y apt-utils sudo apt-transport-https wget bzip2 ca-certificates curl gnupg-agent software-properties-common git vim htop tmux zsh
 
 # init
 ENV TINI_VERSION v0.16.1
